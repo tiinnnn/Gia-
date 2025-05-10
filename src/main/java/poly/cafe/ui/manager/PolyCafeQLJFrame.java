@@ -34,12 +34,12 @@ public class PolyCafeQLJFrame extends javax.swing.JFrame {
         btnExit = new javax.swing.JButton();
         lblFullname = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnDrinkManager = new javax.swing.JButton();
+        btnCategoryManager = new javax.swing.JButton();
+        btnCardManager = new javax.swing.JButton();
+        btnBillManager = new javax.swing.JButton();
+        btnUserManager = new javax.swing.JButton();
+        btnRevenueManager = new javax.swing.JButton();
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
 
@@ -71,23 +71,23 @@ public class PolyCafeQLJFrame extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton1.setText("ĐỒ UỐNG");
+        btnDrinkManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnDrinkManager.setText("ĐỒ UỐNG");
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton2.setText("LOẠI ĐỒ UỐNG");
+        btnCategoryManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnCategoryManager.setText("LOẠI ĐỒ UỐNG");
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton3.setText("THẺ ĐỊNH DANH");
+        btnCardManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnCardManager.setText("THẺ ĐỊNH DANH");
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton4.setText("PHIẾU BÁN HÀNG");
+        btnBillManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnBillManager.setText("PHIẾU BÁN HÀNG");
 
-        jButton5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton5.setText("NGƯỜI SỦ DỤNG");
+        btnUserManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnUserManager.setText("NGƯỜI SỦ DỤNG");
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton6.setText("DOANH THU");
+        btnRevenueManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnRevenueManager.setText("DOANH THU");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,16 +106,16 @@ public class PolyCafeQLJFrame extends javax.swing.JFrame {
                         .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBillManager)
+                    .addComponent(btnDrinkManager, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnUserManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCategoryManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnCardManager)
+                    .addComponent(btnRevenueManager, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -141,16 +141,16 @@ public class PolyCafeQLJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSales)
                     .addComponent(btnHistory)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnDrinkManager)
+                    .addComponent(btnCategoryManager)
+                    .addComponent(btnCardManager))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnChangePassword)
                     .addComponent(btnExit)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(btnBillManager)
+                    .addComponent(btnUserManager)
+                    .addComponent(btnRevenueManager))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -197,16 +197,16 @@ public class PolyCafeQLJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBillManager;
+    private javax.swing.JButton btnCardManager;
+    private javax.swing.JButton btnCategoryManager;
     private javax.swing.JButton btnChangePassword;
+    private javax.swing.JButton btnDrinkManager;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnHistory;
+    private javax.swing.JButton btnRevenueManager;
     private javax.swing.JButton btnSales;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton btnUserManager;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblFullname;
