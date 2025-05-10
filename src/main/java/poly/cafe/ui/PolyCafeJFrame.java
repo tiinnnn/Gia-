@@ -63,7 +63,7 @@ public class PolyCafeJFrame extends javax.swing.JFrame {
         btnHistory.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnHistory.setText("LỊCH SỬ");
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

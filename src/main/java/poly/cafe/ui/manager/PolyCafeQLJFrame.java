@@ -41,7 +41,8 @@ public class PolyCafeQLJFrame extends javax.swing.JFrame {
         btnUserManager = new javax.swing.JButton();
         btnRevenueManager = new javax.swing.JButton();
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
+        jLabel2.setLabelFor(jLabel2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,7 +70,8 @@ public class PolyCafeQLJFrame extends javax.swing.JFrame {
         lblFullname.setForeground(new java.awt.Color(255, 102, 102));
         lblFullname.setText("Name");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
+        jLabel3.setLabelFor(jLabel3);
 
         btnDrinkManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnDrinkManager.setText("ĐỒ UỐNG");
