@@ -32,23 +32,19 @@ PolyCafeController {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         lblPhoto = new javax.swing.JLabel();
         btnSales = new javax.swing.JButton();
         btnHistory = new javax.swing.JButton();
         btnChangePassword = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
         lblFullname = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         btnDrinkManager = new javax.swing.JButton();
         btnCategoryManager = new javax.swing.JButton();
         btnCardManager = new javax.swing.JButton();
         btnBillManager = new javax.swing.JButton();
         btnUserManager = new javax.swing.JButton();
         btnRevenueManager = new javax.swing.JButton();
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
-        jLabel2.setLabelFor(jLabel2);
+        Lbackgrd = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,9 +86,6 @@ PolyCafeController {
         lblFullname.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblFullname.setForeground(new java.awt.Color(255, 102, 102));
         lblFullname.setText("Name");
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
-        jLabel3.setLabelFor(jLabel3);
 
         btnDrinkManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnDrinkManager.setText("ĐỒ UỐNG");
@@ -142,10 +135,23 @@ PolyCafeController {
             }
         });
 
+        Lbackgrd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
+        Lbackgrd.setLabelFor(Lbackgrd);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(lblFullname)))
+                .addGap(127, 127, 127)
+                .addComponent(Lbackgrd, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,35 +170,24 @@ PolyCafeController {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnUserManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCategoryManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCategoryManager, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCardManager)
                     .addComponent(btnRevenueManager, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(lblFullname)))
-                .addGap(99, 99, 99)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblFullname)))
-                .addGap(24, 24, 24)
+                        .addComponent(lblFullname))
+                    .addComponent(Lbackgrd, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSales)
                     .addComponent(btnHistory)
@@ -206,7 +201,7 @@ PolyCafeController {
                     .addComponent(btnBillManager)
                     .addComponent(btnUserManager)
                     .addComponent(btnRevenueManager))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -289,6 +284,7 @@ PolyCafeController {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Lbackgrd;
     private javax.swing.JButton btnBillManager;
     private javax.swing.JButton btnCardManager;
     private javax.swing.JButton btnCategoryManager;
@@ -299,8 +295,6 @@ PolyCafeController {
     private javax.swing.JButton btnRevenueManager;
     private javax.swing.JButton btnSales;
     private javax.swing.JButton btnUserManager;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblFullname;
     private javax.swing.JLabel lblPhoto;
     // End of variables declaration//GEN-END:variables
