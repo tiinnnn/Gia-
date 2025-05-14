@@ -4,17 +4,23 @@
  */
 package poly.cafe.ui;
 
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+
 /**
  *
  * @author LENOVO
  */
-public class PolyCafeJFrame extends javax.swing.JFrame {
+public final class PolyCafeJFrame extends javax.swing.JFrame implements 
+PolyCafeController {
 
     /**
      * Creates new form PolyCafeJFrame
      */
     public PolyCafeJFrame() {
         initComponents();
+        this.init();
     }
 
     /**
@@ -62,8 +68,13 @@ public class PolyCafeJFrame extends javax.swing.JFrame {
 
         btnHistory.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnHistory.setText("LỊCH SỬ");
+        btnHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistoryActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/mountains-under-blushing-skies.3840x2160.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,6 +130,10 @@ public class PolyCafeJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
+    private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
+        this.showHistoryJDialog(this);
+    }//GEN-LAST:event_btnHistoryActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -164,4 +179,77 @@ public class PolyCafeJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblFullname;
     private javax.swing.JLabel lblPhoto;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void init() {
+        this.setIconImage(new ImageIcon("trump-small.png").getImage());
+        this.setLocationRelativeTo(null);
+        this.showWelcomeJDialog(this);
+        this.showLoginJDialog(this);
+    }
+
+    @Override
+    public void exit() {
+        PolyCafeController.super.exit(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showJDialog(JDialog dialog) {
+        PolyCafeController.super.showJDialog(dialog); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showWelcomeJDialog(JFrame frame) {
+        PolyCafeController.super.showWelcomeJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showLoginJDialog(JFrame frame) {
+        PolyCafeController.super.showLoginJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showChangePasswordJDialog(JFrame frame) {
+        PolyCafeController.super.showChangePasswordJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showSalesJDialog(JFrame frame) {
+        PolyCafeController.super.showSalesJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showHistoryJDialog(JFrame frame) {
+        PolyCafeController.super.showHistoryJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showDrinkManagerJDialog(JFrame frame) {
+        PolyCafeController.super.showDrinkManagerJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showCategoryJDialog(JFrame frame) {
+        PolyCafeController.super.showCategoryJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showCardManagerJDialog(JFrame frame) {
+        PolyCafeController.super.showCardManagerJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showBillManagerJDialog(JFrame frame) {
+        PolyCafeController.super.showBillManagerJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showUserManagerJDialog(JFrame frame) {
+        PolyCafeController.super.showUserManagerJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void showRevenueManagerJDialog(JFrame frame) {
+        PolyCafeController.super.showRevenueManagerJDialog(frame); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
 }
