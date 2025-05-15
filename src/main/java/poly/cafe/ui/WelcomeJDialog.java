@@ -8,7 +8,7 @@ package poly.cafe.ui;
  *
  * @author Admin
  */
-public class WelcomeJDialog extends javax.swing.JDialog {
+public class WelcomeJDialog extends javax.swing.JDialog implements WelcomeController{
 
     /**
      * Creates new form WelcomeJDialog
@@ -32,6 +32,11 @@ public class WelcomeJDialog extends javax.swing.JDialog {
         progressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 102, 0));
@@ -72,6 +77,10 @@ public class WelcomeJDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.waiting();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -120,4 +129,20 @@ public class WelcomeJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void waiting() {
+        this.setLocationRelativeTo(null);
+        new Thread(() -> {
+            try {
+                for (var i = 0; i <= 100; i++) {
+                    progressBar.setValue(i);
+                    Thread.sleep(10);
+                }
+                    WelcomeJDialog.this.dispose();
+            }catch (InterruptedException ex) {
+                System.exit(0);
+            }
+        }).start();
+    }
 }
