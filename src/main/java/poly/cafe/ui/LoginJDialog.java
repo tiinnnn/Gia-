@@ -38,7 +38,7 @@ public class LoginJDialog extends javax.swing.JDialog {
         jButton5 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/trump-small.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/trump-small.png"))); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 

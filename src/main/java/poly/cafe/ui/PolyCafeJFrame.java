@@ -302,7 +302,7 @@ PolyCafeController {
 
     @Override
     public void init() {
-        this.setIconImage(XIcon.getIcon("trump-small.png").getImage());
+        this.setIconImage(XIcon.getIcon("/icons/trump-small.png").getImage());
         this.setLocationRelativeTo(null);
         
         this.showWelcomeJDialog(this);
