@@ -37,7 +37,7 @@ public class WelcomeJDialog extends javax.swing.JDialog {
         jLabel1.setForeground(new java.awt.Color(255, 102, 0));
         jLabel1.setText(" Poly Cafe");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/cafe/icons/trump-small.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/trump-small.png"))); // NOI18N
 
         progressBar.setStringPainted(true);
 
