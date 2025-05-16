@@ -9,6 +9,6 @@ package poly.cafe.entity;
  * @author LENOVO
  */
 public class Card {
-    int id;
-    int status;
+    private Integer id;
+    private int status;
 }

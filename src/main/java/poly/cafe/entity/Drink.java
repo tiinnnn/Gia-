@@ -4,15 +4,19 @@
  */
 package poly.cafe.entity;
 
+import lombok.Builder;
+
 /**
  *
  * @author LENOVO
  */
 public class Drink {
-    String id;
-    String name;
-    Double unitPrice;
-    Double discount;
-    String image;
-    Boolean available;
+    private String id;
+    private String name;
+    @Builder.Default
+    private String image = "product.png";
+    private double unitPrice;
+    private double discount;
+    private boolean available;
+    private String categoryId;
 }

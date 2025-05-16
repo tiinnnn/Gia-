@@ -4,15 +4,18 @@
  */
 package poly.cafe.entity;
 
+import lombok.Builder;
+
 /**
  *
  * @author LENOVO
  */
 public class User {
-    String username;
-    String password;
-    boolean enabled;
-    String fullname;
-    String photo;
-    boolean manager;
+    private String username;
+    private String password;
+    private boolean enabled;
+    private String fullname;
+    @Builder.Default
+    private String photo = "photo.png";
+    private boolean manager;
 }

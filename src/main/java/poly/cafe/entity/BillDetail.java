@@ -9,10 +9,10 @@ package poly.cafe.entity;
  * @author LENOVO
  */
 public class BillDetail {
-    Long id;
-    Long billId;
-    String drinkId;
-    double unitPrice;
-    double discount;
-    int quantity;
+    private Long id;
+    private Long billId;
+    private String drinkId;
+    private double unitPrice;
+    private double discount;
+    private int quantity;
 }
