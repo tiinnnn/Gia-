@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import poly.cafe.entity.Category;
 import poly.cafe.entity.User;
 
 /**
@@ -97,4 +98,5 @@ public class XQuery {
         String sql = "SELECT * FROM Users WHERE Fullname LIKE ?";
         List<User> list = XQuery.getBeanList(User.class, sql, "%Nguyễn %");
     }
+
 }
