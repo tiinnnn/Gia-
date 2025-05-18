@@ -149,7 +149,7 @@
                       <Table columnCount="3" rowCount="4">
                         <Column editable="true" title="Title 1" type="java.lang.Object"/>
                         <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 3" type="java.lang.Boolean"/>
                       </Table>
                     </Property>
                   </Properties>

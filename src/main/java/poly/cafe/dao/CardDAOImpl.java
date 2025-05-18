@@ -6,40 +6,52 @@ package poly.cafe.dao;
 
 import java.util.List;
 import poly.cafe.entity.Card;
+import poly.cafe.entity.Category;
+import poly.cafe.util.XJdbc;
+import poly.cafe.util.XQuery;
 
 /**
  *
  * @author LENOVO
  */
 public class CardDAOImpl implements CardDAO{
-    String createSql = "…";
-    String updateSql = "…";
-    String deleteSql = "…";
-    String findAllSql = "…";
-    String findByIdSql = "…";
+    String createSql = "INSERT INTO Cards(Id, Status) VALUES(?, ?)";
+    String updateSql = "UPDATE Cards SET Status=? WHERE Id=?";
+    String deleteSql = "DELETE FROM Cards WHERE Id=?";
+    String findAllSql = "SELECT * FROM Cards";
+    String findByIdSql = "SELECT * FROM Cards WHERE Id=?";
     @Override
     public Card create(Card entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] values = {
+        entity.getId(),
+        entity.getStatus()
+        };
+        XJdbc.executeUpdate(createSql, values);
+        return entity;
     }
 
     @Override
     public void update(Card entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] values = {
+        entity.getStatus(),
+        entity.getId()
+        };
+        XJdbc.executeUpdate(updateSql, values);    
     }
 
     @Override
     public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        XJdbc.executeUpdate(deleteSql, id);
     }
 
     @Override
     public List<Card> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return XQuery.getBeanList(Card.class, findAllSql);
     }
 
     @Override
     public Card findById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return XQuery.getSingleBean(Card.class, findByIdSql, id);
     }
     
 }

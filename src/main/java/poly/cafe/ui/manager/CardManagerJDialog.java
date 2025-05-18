@@ -4,11 +4,18 @@
  */
 package poly.cafe.ui.manager;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import poly.cafe.dao.CardDAO;
+import poly.cafe.dao.CardDAOImpl;
+import poly.cafe.entity.Card;
+import poly.cafe.util.XDialog;
+
 /**
  *
  * @author LENOVO
  */
-public class CardManagerJDialog extends javax.swing.JDialog {
+public class CardManagerJDialog extends javax.swing.JDialog implements CardController{
 
     /**
      * Creates new form CardManagerJDialog
@@ -28,33 +35,38 @@ public class CardManagerJDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        tblCards = new javax.swing.JTable();
+        btnCheckAll = new javax.swing.JButton();
+        btnUncheckAll = new javax.swing.JButton();
+        btnDeleteCheckedItems = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtId = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        rdope = new javax.swing.JRadioButton();
+        rderr = new javax.swing.JRadioButton();
+        rdlose = new javax.swing.JRadioButton();
+        btnCreate = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton8 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        btnMoveFirst = new javax.swing.JButton();
+        btnMovePrevious = new javax.swing.JButton();
+        btnMoveLast = new javax.swing.JButton();
+        btnMoveNext = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCards.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -64,19 +76,42 @@ public class CardManagerJDialog extends javax.swing.JDialog {
             new String [] {
                 "Mã thẻ", "Trạng thái", "                      "
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
 
-        jButton1.setText("Chọn tất cả");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tblCards.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCardsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblCards);
+
+        btnCheckAll.setText("Chọn tất cả");
+        btnCheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCheckAllActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Bỏ chọn tất cả");
+        btnUncheckAll.setText("Bỏ chọn tất cả");
+        btnUncheckAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUncheckAllActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Xoá các mục tiêu chọn");
+        btnDeleteCheckedItems.setText("Xoá các mục tiêu chọn");
+        btnDeleteCheckedItems.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteCheckedItemsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,11 +120,11 @@ public class CardManagerJDialog extends javax.swing.JDialog {
             .addComponent(jScrollPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(238, 238, 238)
-                .addComponent(jButton1)
+                .addComponent(btnCheckAll)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnUncheckAll)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(btnDeleteCheckedItems)
                 .addContainerGap(77, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -99,45 +134,80 @@ public class CardManagerJDialog extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1))
+                    .addComponent(btnUncheckAll)
+                    .addComponent(btnDeleteCheckedItems)
+                    .addComponent(btnCheckAll))
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Danh sách", jPanel1);
+        tabs.addTab("Danh sách", jPanel1);
 
         jLabel1.setText("Mã thẻ");
 
         jLabel2.setText("Trạng thái:");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Operating");
+        buttonGroup1.add(rdope);
+        rdope.setText("Operating");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Error");
+        buttonGroup1.add(rderr);
+        rderr.setText("Error");
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Lose");
+        buttonGroup1.add(rdlose);
+        rdlose.setText("Lose");
 
-        jButton4.setText("Tạo mới");
-
-        jButton5.setText("Cập nhật");
-
-        jButton6.setText("Xoá");
-
-        jButton7.setText("Nhập mới");
-
-        jButton8.setText("|<");
-
-        jButton10.setText("<<");
-
-        jButton11.setText(">|");
-
-        jButton12.setText(">>");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        btnCreate.setText("Tạo mới");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                btnCreateActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setText("Cập nhật");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Xoá");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnClear.setText("Nhập mới");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
+        btnMoveFirst.setText("|<");
+        btnMoveFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveFirstActionPerformed(evt);
+            }
+        });
+
+        btnMovePrevious.setText("<<");
+        btnMovePrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMovePreviousActionPerformed(evt);
+            }
+        });
+
+        btnMoveLast.setText(">|");
+        btnMoveLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveLastActionPerformed(evt);
+            }
+        });
+
+        btnMoveNext.setText(">>");
+        btnMoveNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveNextActionPerformed(evt);
             }
         });
 
@@ -149,32 +219,32 @@ public class CardManagerJDialog extends javax.swing.JDialog {
                 .addGap(46, 46, 46)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(btnCreate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
+                        .addComponent(btnUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
+                        .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)
+                        .addComponent(btnClear)
                         .addGap(55, 55, 55)
-                        .addComponent(jButton8)
+                        .addComponent(btnMoveFirst)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton10)
+                        .addComponent(btnMovePrevious)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton12)
+                        .addComponent(btnMoveNext)
                         .addGap(8, 8, 8)
-                        .addComponent(jButton11)
+                        .addComponent(btnMoveLast)
                         .addGap(18, 18, 18))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rdope, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rderr, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(rdlose, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -187,30 +257,30 @@ public class CardManagerJDialog extends javax.swing.JDialog {
                 .addGap(38, 38, 38)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
+                    .addComponent(rdope)
+                    .addComponent(rderr)
+                    .addComponent(rdlose))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8)
-                    .addComponent(jButton10)
-                    .addComponent(jButton11)
-                    .addComponent(jButton12))
+                    .addComponent(btnCreate)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete)
+                    .addComponent(btnClear)
+                    .addComponent(btnMoveFirst)
+                    .addComponent(btnMovePrevious)
+                    .addComponent(btnMoveLast)
+                    .addComponent(btnMoveNext))
                 .addGap(16, 16, 16))
         );
 
-        jTabbedPane1.addTab("Biểu mẫu", jPanel2);
+        tabs.addTab("Biểu mẫu", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -218,27 +288,73 @@ public class CardManagerJDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(tabs)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnCheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckAllActionPerformed
+        this.checkAll();
+    }//GEN-LAST:event_btnCheckAllActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
+    private void btnMoveNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveNextActionPerformed
+        this.moveNext();
+    }//GEN-LAST:event_btnMoveNextActionPerformed
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        this.create();
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnUncheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUncheckAllActionPerformed
+        this.uncheckAll();
+    }//GEN-LAST:event_btnUncheckAllActionPerformed
+
+    private void btnDeleteCheckedItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCheckedItemsActionPerformed
+        this.deleteCheckedItems();
+    }//GEN-LAST:event_btnDeleteCheckedItemsActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        this.update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        this.delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        this.clear();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnMoveFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveFirstActionPerformed
+        this.moveFirst();
+    }//GEN-LAST:event_btnMoveFirstActionPerformed
+
+    private void btnMovePreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovePreviousActionPerformed
+        this.movePrevious();
+    }//GEN-LAST:event_btnMovePreviousActionPerformed
+
+    private void btnMoveLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveLastActionPerformed
+        this.moveLast();
+    }//GEN-LAST:event_btnMoveLastActionPerformed
+
+    private void tblCardsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCardsMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.edit();
+        }
+    }//GEN-LAST:event_tblCardsMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.open();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -283,29 +399,184 @@ public class CardManagerJDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCheckAll;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteCheckedItems;
+    private javax.swing.JButton btnMoveFirst;
+    private javax.swing.JButton btnMoveLast;
+    private javax.swing.JButton btnMoveNext;
+    private javax.swing.JButton btnMovePrevious;
+    private javax.swing.JButton btnUncheckAll;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JRadioButton rderr;
+    private javax.swing.JRadioButton rdlose;
+    private javax.swing.JRadioButton rdope;
+    private javax.swing.JTabbedPane tabs;
+    private javax.swing.JTable tblCards;
+    private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
+    CardDAO dao = new CardDAOImpl();
+    List<Card> items = List.of();
+    @Override
+    public void open() {
+        this.setLocationRelativeTo(null);
+        this.fillToTable();
+        this.clear();
+    }
+
+    @Override
+    public Card getForm() {
+        int status;
+        if(rdope.isSelected()){
+            status = 0;
+        }else if(rderr.isSelected()){
+            status=1;
+        }else{
+            status=2;
+        }
+        Card entity = new Card();
+        entity.setId(Integer.valueOf(txtId.getText()));
+        entity.setStatus(status);
+        return entity;
+    }
+
+    @Override
+    public void fillToTable() {
+        DefaultTableModel model = (DefaultTableModel) tblCards.getModel();
+        model.setRowCount(0);
+        items = dao.findAll();
+        items.forEach(item -> {
+        Object[] rowData = {
+        item.getId(),
+        item.getStatus(),
+        false
+        };
+        model.addRow(rowData);
+        });
+    }
+
+    @Override
+    public void edit() {
+        Card entity = items.get(tblCards.getSelectedRow());
+        this.setForm(entity);
+        this.setEditable(true);
+        tabs.setSelectedIndex(1);
+    }
+
+    @Override
+    public void create() {
+        Card entity = this.getForm();
+        dao.create(entity);
+        this.fillToTable();
+        this.clear();
+    }
+
+    @Override
+    public void update() {
+        Card entity = this.getForm();
+        dao.update(entity);
+        this.fillToTable(); 
+    }
+
+    @Override
+    public void delete() {
+        if (XDialog.confirm("Bạn thực sự muốn xóa?")) {
+            Integer id = Integer.valueOf(txtId.getText());
+            dao.deleteById(id);
+            this.fillToTable();
+            this.clear();
+        }   
+    }
+
+    @Override
+    public void clear() {
+        this.setForm(new Card());
+        this.setEditable(false);   
+    }
+
+    @Override
+    public void setEditable(boolean editable) {
+        txtId.setEnabled(!editable);
+        btnCreate.setEnabled(!editable);
+        btnUpdate.setEnabled(editable);
+        btnDelete.setEnabled(editable);
+        int rowCount = tblCards.getRowCount();
+        btnMoveFirst.setEnabled(editable && rowCount > 0);
+        btnMovePrevious.setEnabled(editable && rowCount > 0);
+        btnMoveNext.setEnabled(editable && rowCount > 0);
+        btnMoveLast.setEnabled(editable && rowCount > 0);    
+    }
+
+    @Override
+    public void checkAll() {
+        this.setCheckedAll(true);
+    }
+
+    @Override
+    public void uncheckAll() {
+        this.setCheckedAll(false);
+    }
+    
+    private void setCheckedAll(boolean checked) {
+        for (int i = 0; i < tblCards.getRowCount(); i++) {
+            tblCards.setValueAt(checked, i, 2);
+        }
+    }
+    @Override
+    public void deleteCheckedItems() {
+        if (XDialog.confirm("Bạn thực sự muốn xóa các mục chọn?")) {
+            for (int i = 0; i < tblCards.getRowCount(); i++) {
+                if ((Boolean) tblCards.getValueAt(i, 2)) {
+                    dao.deleteById(items.get(i).getId());
+                }
+        }
+            this.fillToTable();
+        }
+    }
+
+    @Override
+    public void moveFirst() {
+        this.moveTo(0);
+    }
+
+    @Override
+    public void movePrevious() {
+        this.moveTo(tblCards.getSelectedRow() - 1);
+    }
+
+    @Override
+    public void moveNext() {
+        this.moveTo(tblCards.getSelectedRow() + 1);
+    }
+
+    @Override
+    public void moveLast() {
+        
+    }
+
+    @Override
+    public void moveTo(int rowIndex) {
+        this.moveTo(tblCards.getRowCount() - 1);
+    }
+
+    @Override
+    public void setForm(Card entity) {
+        txtId.setText(String.valueOf(entity.getId()));
+        if(entity.getStatus() == 0) {
+            rdope.setSelected(true);
+        } else if(entity.getStatus() == 1) {
+            rderr.setSelected(true);
+        } else if(entity.getStatus() == 2) {
+            rdlose.setSelected(true);
+        }
+    }
 }
