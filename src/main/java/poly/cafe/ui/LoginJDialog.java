@@ -4,6 +4,8 @@
  */
 package poly.cafe.ui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Asus F507
@@ -55,6 +57,11 @@ public class LoginJDialog extends javax.swing.JDialog {
         });
 
         jButton4.setText("Đăng nhập");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/trump-small.png"))); // NOI18N
         jLabel4.setText("jLabel4");
@@ -117,6 +124,22 @@ public class LoginJDialog extends javax.swing.JDialog {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+            String username = jTextField1.getText();
+    String password = jTextField2.getText();
+
+    // Tài khoản mẫu
+    String correctUsername = "admin";
+    String correctPassword = "123";
+
+    if (username.equals(correctUsername) && password.equals(correctPassword)) {
+        JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+        this.dispose(); // Đóng form nếu cần
+    } else {
+        JOptionPane.showMessageDialog(this, "Sai tên đăng nhập hoặc mật khẩu!");
+    }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
