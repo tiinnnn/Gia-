@@ -6,40 +6,59 @@ package poly.cafe.dao;
 
 import java.util.List;
 import poly.cafe.entity.User;
+import poly.cafe.util.XJdbc;
+import poly.cafe.util.XQuery;
 
 /**
  *
  * @author LENOVO
  */
 public class UserDAOImpl implements UserDAO{
-    String createSql = "…";
-    String updateSql = "…";
-    String deleteSql = "…";
-    String findAllSql = "…";
-    String findByIdSql = "…";
+    String createSql = "INSERT INTO User(Username,Password, Enabled ,Fullname, Photo,Manager) VALUES(?, ?, ?, ?, ?, ?)";
+    String updateSql = "UPDATE User SET Username=? Password=? Enabled=? Fullname=? Photo=? Manager=?";
+    String deleteSql = "DELETE FROM User SET Username=?";
+    String findAllSql = "SELECT * FROM User";
+    String findByIdSql = "SELECT * FROM User SET Username=?";
     @Override
     public User create(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] values = {
+        entity.getUsername(),
+        entity.getPassword(),
+        entity.isEnabled(),
+        entity.getFullname(),
+        entity.getPhoto(),
+        entity.isManager()
+        };
+        XJdbc.executeUpdate(createSql, values);  
+        return entity;
     }
 
     @Override
     public void update(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       Object[] values = {
+        entity.getUsername(),
+        entity.getPassword(),
+        entity.isEnabled(),
+        entity.getFullname(),
+        entity.getPhoto(),
+        entity.isManager()
+        };
+        XJdbc.executeUpdate(updateSql, values);
     }
 
     @Override
-    public void deleteById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void deleteById(String username) {
+        XJdbc.executeUpdate(deleteSql, username);
     }
 
     @Override
     public List<User> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return XQuery.getBeanList(User.class, findAllSql);
     }
 
     @Override
-    public User findById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public User findById(String username) {
+        return XQuery.getSingleBean(User.class, findByIdSql, username);
     }
     
 }
