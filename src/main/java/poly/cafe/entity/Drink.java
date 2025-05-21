@@ -87,5 +87,9 @@ public class Drink {
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
+
+    public Object getAvailable() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }
