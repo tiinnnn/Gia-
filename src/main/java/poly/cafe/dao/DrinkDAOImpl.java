@@ -5,7 +5,9 @@
 package poly.cafe.dao;
 
 import java.util.List;
+import poly.cafe.entity.Category;
 import poly.cafe.entity.Drink;
+import poly.cafe.util.XJdbc;
 import poly.cafe.util.XQuery;
 
 /**
@@ -13,11 +15,11 @@ import poly.cafe.util.XQuery;
  * @author LENOVO
  */
 public class DrinkDAOImpl implements DrinkDAO{
-    String createSql = "…";
-    String updateSql = "…";
-    String deleteSql = "…";
-    String findAllSql = "…";
-    String findByIdSql = "…";
+    String createSql = "INSERT INTO Drinks(Id, Name,UnitPrice,Discount,Image,Available,CategoryId) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    String updateSql = "UPDATE Drinks SET Name=? UnitPrice=? Discount=? Image=? Available=? CategoryId=?  WHERE Id=? ";
+    String deleteSql = "DELETE FROM Drinks WHERE Id=?";
+    String findAllSql = "SELECT * FROM Drinks";
+    String findByIdSql = "SELECT * FROM Drinks WHERE Id=?";
     String findByCategoryIdSql = "SELECT * FROM Drinks WHERE CategoryId=?";
     @Override
     public List<Drink> findByCategoryId(String categoryId) {
@@ -25,27 +27,47 @@ public class DrinkDAOImpl implements DrinkDAO{
 
     @Override
     public Drink create(Drink entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] values = {
+        entity.getId(),
+        entity.getName(),
+        entity.getDiscount(),
+        entity.getImage(),
+        entity.getUnitPrice(),
+        entity.getAvailable(),
+        entity.getCategoryId()
+        };
+        XJdbc.executeUpdate(createSql, values);
+        return entity;
     }
 
     @Override
     public void update(Drink entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] values = {
+         entity.getName(),
+         entity.getId(),
+         entity.getDiscount(),
+         entity.getImage(),
+        entity.getUnitPrice(),
+        entity.getAvailable(),
+        entity.getCategoryId()
+        };
+        XJdbc.executeUpdate(updateSql, values);   
     }
+    
 
     @Override
     public void deleteById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         XJdbc.executeUpdate(deleteSql, id); 
     }
 
     @Override
     public List<Drink> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return XQuery.getBeanList(Drink.class, findAllSql);    
     }
 
     @Override
     public Drink findById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return XQuery.getSingleBean(Drink.class, findByIdSql, id);  
     }
     
 }
