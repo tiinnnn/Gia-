@@ -50,7 +50,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
         txtUsername = new javax.swing.JTextField();
         txtFullName = new javax.swing.JTextField();
         txtPassword = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txtPwConfirm = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -196,7 +196,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
                                     .addComponent(jLabel5)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtFullName, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                                        .addComponent(jTextField4))
+                                        .addComponent(txtPwConfirm))
                                     .addComponent(jLabel3))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -255,7 +255,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPwConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -370,7 +370,6 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lbPhoto;
     private javax.swing.JRadioButton rdoEnabled;
     private javax.swing.JRadioButton rdoManager;
@@ -378,6 +377,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
     private javax.swing.JTable tblUser;
     private javax.swing.JTextField txtFullName;
     private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtPwConfirm;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
     UserDAO dao = new UserDAOImpl();
@@ -391,13 +391,33 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
 
     @Override
     public void setForm(User entity) {
+        txtUsername.setText(entity.getUsername());
+        txtPassword.setText(entity.getPassword());    
+        txtFullName.setText(entity.getFullname());
+        //lbPhoto
+        if (entity.isEnabled()){
+            rdoEnabled.setSelected(true);
+        }else{
+            jRadioButton4.setSelected(true);
+        }
+        if (entity.isManager()){
+            rdoManager.setSelected(true);
+        }else{
+            jRadioButton2.setSelected(true);
+        }
         
     }
 
     @Override
     public User getForm() {
-        
-        return null;
+        User entity = new User();
+        entity.setUsername(txtUsername.getText());
+        entity.setPassword(txtPassword.getText());
+        entity.setEnabled(rdoEnabled.isSelected());
+        entity.setFullname(txtFullName.getText());
+        entity.setManager(rdoManager.isSelected());
+        //photo???
+        return entity;    
     }
 
     @Override

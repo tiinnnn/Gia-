@@ -176,7 +176,7 @@
                                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="txtFullName" pref="265" max="32767" attributes="0"/>
-                                              <Component id="jTextField4" max="32767" attributes="0"/>
+                                              <Component id="txtPwConfirm" max="32767" attributes="0"/>
                                           </Group>
                                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -255,7 +255,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtPwConfirm" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -316,7 +316,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtPassword">
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField4">
+            <Component class="javax.swing.JTextField" name="txtPwConfirm">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
