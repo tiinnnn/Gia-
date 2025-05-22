@@ -4,6 +4,9 @@
  */
 package poly.cafe.ui.manager;
 
+import java.util.List;
+import poly.cafe.dao.UserDAO;
+import poly.cafe.dao.UserDAOImpl;
 import poly.cafe.entity.User;
 import poly.cafe.util.XDialog;
 
@@ -377,7 +380,8 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
-
+    UserDAO dao = new UserDAOImpl();
+    List<User> items = List.of();
     @Override
     public void open() {
         this.setLocationRelativeTo(null);
@@ -456,7 +460,14 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
     }
     @Override
     public void deleteCheckedItems() {
-        
+         if (XDialog.confirm("Bạn thực sự muốn xóa các mục chọn?")) {
+            for (int i = 0; i < tblUser.getRowCount(); i++) {
+                if ((Boolean) tblUser.getValueAt(i, 2)) {
+                    dao.deleteById(items.get(i).getUsername());
+                }
+            }
+            this.fillToTable();
+        }    
     }
 
     @Override
