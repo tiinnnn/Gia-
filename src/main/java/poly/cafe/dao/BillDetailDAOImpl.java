@@ -15,10 +15,10 @@ public class BillDetailDAOImpl implements BillDetailDAO{
     String createSql = "…";
     String updateSql = "…";
     String deleteSql = "…";
-    String findAllSql = "…";
-    String findByIdSql = "…";
-    String findByBillIdSql = "…";
-    String findByDrinkIdSql = "…";
+    String findAllSql = "SELECT bd.*, d.name AS drinkName\n" + "FROM BillDetails bd JOIN Drinks d ON d.Id=bd.DrinkId";
+    String findByIdSql = "SELECT bd.*, d.name AS drinkName\n" + "FROM BillDetails bd JOIN Drinks d ON d.Id=bd.DrinkId WHERE bd.Id=?";
+    String findByBillIdSql = "SELECT bd.*, d.name AS drinkName\n" + "FROM BillDetails bd JOIN Drinks d ON d.Id=bd.DrinkId WHERE bd.BillId=?";
+    String findByDrinkIdSql = "SELECT bd.*, d.name AS drinkName\n" + "BillDetails bd JOIN Drinks d ON d.Id=bd.DrinkId WHERE bd.DrinkId=?";
     @Override
     public List<BillDetail> findByBillId(Long billId) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
