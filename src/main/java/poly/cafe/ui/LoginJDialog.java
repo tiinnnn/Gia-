@@ -4,13 +4,17 @@
  */
 package poly.cafe.ui;
 
-import javax.swing.JOptionPane;
+import poly.cafe.dao.UserDAO;
+import poly.cafe.dao.UserDAOImpl;
+import poly.cafe.entity.User;
+import poly.cafe.util.XAuth;
+import poly.cafe.util.XDialog;
 
 /**
  *
  * @author Asus F507
  */
-public class LoginJDialog extends javax.swing.JDialog {
+public class LoginJDialog extends javax.swing.JDialog implements LoginController{
 
     /**
      * Creates new form LoginJDialog2
@@ -18,6 +22,7 @@ public class LoginJDialog extends javax.swing.JDialog {
     public LoginJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        open();
     }
 
     /**
@@ -30,12 +35,12 @@ public class LoginJDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        txtPassword = new javax.swing.JTextField();
+        btnExit = new javax.swing.JButton();
+        btnLogin = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -49,17 +54,17 @@ public class LoginJDialog extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Mật khẩu");
 
-        jButton5.setText("Kết thúc");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnExit.setText("Kết thúc");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnExitActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Đăng nhập");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnLogin.setText("Đăng nhập");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnLoginActionPerformed(evt);
             }
         });
 
@@ -84,15 +89,15 @@ public class LoginJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jButton4)
+                                    .addComponent(btnLogin)
                                     .addGap(63, 63, 63)
-                                    .addComponent(jButton5))
+                                    .addComponent(btnExit))
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1))
+                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsername))
                         .addGap(70, 70, 70))))
         );
         layout.setVerticalGroup(
@@ -105,15 +110,15 @@ public class LoginJDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4)
-                            .addComponent(jButton5)))
+                            .addComponent(btnLogin)
+                            .addComponent(btnExit)))
                     .addComponent(jLabel4))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
@@ -121,25 +126,24 @@ public class LoginJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        exit();
+    }//GEN-LAST:event_btnExitActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-            String username = jTextField1.getText();
-    String password = jTextField2.getText();
-
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        login();
+        //    String username = txtUsername.getText();
+    //        String password = txtPassword.getText();
     // Tài khoản mẫu
-    String correctUsername = "admin";
-    String correctPassword = "123";
-
-    if (username.equals(correctUsername) && password.equals(correctPassword)) {
-        JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-        this.dispose(); // Đóng form nếu cần
-    } else {
-        JOptionPane.showMessageDialog(this, "Sai tên đăng nhập hoặc mật khẩu!");
-    }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    //String correctUsername = "admin";
+    //String correctPassword = "123";
+    //if (username.equals(correctUsername) && password.equals(correctPassword)) {
+    //    JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+    //    this.dispose(); // Đóng form nếu cần
+    //} else {
+    //    JOptionPane.showMessageDialog(this, "Sai tên đăng nhập hoặc mật khẩu!");
+    //}
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,13 +189,36 @@ public class LoginJDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void open() {
+        this.setLocationRelativeTo(null);
+    }
+
+    @Override
+    public void login() {
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+        UserDAO dao = new UserDAOImpl();
+        User user = dao.findById(username);
+        if (user == null) {
+        XDialog.alert("Sai tên đăng nhập!");
+        } else if (!password.equals(user.getPassword())) {
+        XDialog.alert("Sai mật khẩu đăng nhập!");
+        } else if (!user.isEnabled()) {
+        XDialog.alert("Tài khoản của bạn đang tạm dừng!");
+        } else {
+        XAuth.user = user; // duy trì user đăng nhập
+        this.dispose();
+        }
+    }    
 }

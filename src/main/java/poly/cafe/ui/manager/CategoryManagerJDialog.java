@@ -94,7 +94,7 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
                 {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "Mã loại", "Trạng thái", ""
             }
         ) {
             Class[] types = new Class [] {

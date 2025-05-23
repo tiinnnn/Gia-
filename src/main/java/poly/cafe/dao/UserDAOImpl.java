@@ -14,11 +14,11 @@ import poly.cafe.util.XQuery;
  * @author LENOVO
  */
 public class UserDAOImpl implements UserDAO{
-    String createSql = "INSERT INTO User(Username,Password, Enabled ,Fullname, Photo,Manager) VALUES(?, ?, ?, ?, ?, ?)";
-    String updateSql = "UPDATE User SET Username=? Password=? Enabled=? Fullname=? Photo=? Manager=?";
-    String deleteSql = "DELETE FROM User SET Username=?";
-    String findAllSql = "SELECT * FROM User";
-    String findByIdSql = "SELECT * FROM User SET Username=?";
+    String createSql = "INSERT INTO Users(Username,Password, Enabled ,Fullname, Photo,Manager) VALUES(?, ?, ?, ?, ?, ?)";
+    String updateSql = "UPDATE Users SET Username=? Password=? Enabled=? Fullname=? Photo=? Manager=?";
+    String deleteSql = "DELETE FROM Users where Username=?";
+    String findAllSql = "SELECT * FROM Users";
+    String findByIdSql = "SELECT * FROM Users where Username=?";
     @Override
     public User create(User entity) {
         Object[] values = {

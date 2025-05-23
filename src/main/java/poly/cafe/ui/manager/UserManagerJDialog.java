@@ -394,7 +394,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
         txtUsername.setText(entity.getUsername());
         txtPassword.setText(entity.getPassword());    
         txtFullName.setText(entity.getFullname());
-        //lbPhoto
+        //lbPhoto.setIcon(entity.getPhoto());
         if (entity.isEnabled()){
             rdoEnabled.setSelected(true);
         }else{

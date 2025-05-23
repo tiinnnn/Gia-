@@ -6,7 +6,6 @@ package poly.cafe.dao;
 
 import java.util.List;
 import poly.cafe.entity.Card;
-import poly.cafe.entity.Category;
 import poly.cafe.util.XJdbc;
 import poly.cafe.util.XQuery;
 

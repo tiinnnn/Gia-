@@ -6,6 +6,7 @@ package poly.cafe.ui;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import poly.cafe.util.XAuth;
 import poly.cafe.util.XIcon;
 
 /**
@@ -32,19 +33,21 @@ PolyCafeController {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblPhoto = new javax.swing.JLabel();
+        pnlCenter = new javax.swing.JPanel();
         btnSales = new javax.swing.JButton();
         btnHistory = new javax.swing.JButton();
-        btnChangePassword = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
-        lblFullname = new javax.swing.JLabel();
+        btnChangePassword = new javax.swing.JButton();
+        pnlManager = new javax.swing.JPanel();
         btnDrinkManager = new javax.swing.JButton();
-        btnCategoryManager = new javax.swing.JButton();
-        btnCardManager = new javax.swing.JButton();
         btnBillManager = new javax.swing.JButton();
+        btnCategoryManager = new javax.swing.JButton();
         btnUserManager = new javax.swing.JButton();
+        btnCardManager = new javax.swing.JButton();
         btnRevenueManager = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        lblPhoto = new javax.swing.JLabel();
+        lblFullname = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -52,9 +55,6 @@ PolyCafeController {
                 formWindowOpened(evt);
             }
         });
-
-        lblPhoto.setForeground(new java.awt.Color(255, 102, 102));
-        lblPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 102)));
 
         btnSales.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnSales.setText("BÁN HÀNG");
@@ -72,14 +72,6 @@ PolyCafeController {
             }
         });
 
-        btnChangePassword.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnChangePassword.setText("ĐỔI MẬT KHẨU");
-        btnChangePassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChangePasswordActionPerformed(evt);
-            }
-        });
-
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnExit.setText("KẾT THÚC");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -88,31 +80,19 @@ PolyCafeController {
             }
         });
 
-        lblFullname.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        lblFullname.setForeground(new java.awt.Color(255, 102, 102));
-        lblFullname.setText("Name");
+        btnChangePassword.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnChangePassword.setText("ĐỔI MẬT KHẨU");
+        btnChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangePasswordActionPerformed(evt);
+            }
+        });
 
         btnDrinkManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnDrinkManager.setText("ĐỒ UỐNG");
         btnDrinkManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDrinkManagerActionPerformed(evt);
-            }
-        });
-
-        btnCategoryManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnCategoryManager.setText("LOẠI ĐỒ UỐNG");
-        btnCategoryManager.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCategoryManagerActionPerformed(evt);
-            }
-        });
-
-        btnCardManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnCardManager.setText("THẺ ĐỊNH DANH");
-        btnCardManager.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCardManagerActionPerformed(evt);
             }
         });
 
@@ -124,11 +104,27 @@ PolyCafeController {
             }
         });
 
+        btnCategoryManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnCategoryManager.setText("LOẠI ĐỒ UỐNG");
+        btnCategoryManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCategoryManagerActionPerformed(evt);
+            }
+        });
+
         btnUserManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnUserManager.setText("NGƯỜI SỦ DỤNG");
         btnUserManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUserManagerActionPerformed(evt);
+            }
+        });
+
+        btnCardManager.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnCardManager.setText("THẺ ĐỊNH DANH");
+        btnCardManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCardManagerActionPerformed(evt);
             }
         });
 
@@ -140,8 +136,91 @@ PolyCafeController {
             }
         });
 
+        javax.swing.GroupLayout pnlManagerLayout = new javax.swing.GroupLayout(pnlManager);
+        pnlManager.setLayout(pnlManagerLayout);
+        pnlManagerLayout.setHorizontalGroup(
+            pnlManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlManagerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlManagerLayout.createSequentialGroup()
+                        .addComponent(btnBillManager)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUserManager)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRevenueManager, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlManagerLayout.createSequentialGroup()
+                        .addComponent(btnDrinkManager, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCardManager)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCategoryManager, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(214, 214, 214))))
+        );
+        pnlManagerLayout.setVerticalGroup(
+            pnlManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlManagerLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(pnlManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDrinkManager)
+                    .addComponent(btnCategoryManager)
+                    .addComponent(btnCardManager))
+                .addGap(18, 18, 18)
+                .addGroup(pnlManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRevenueManager)
+                    .addComponent(btnUserManager)
+                    .addComponent(btnBillManager))
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout pnlCenterLayout = new javax.swing.GroupLayout(pnlCenter);
+        pnlCenter.setLayout(pnlCenterLayout);
+        pnlCenterLayout.setHorizontalGroup(
+            pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCenterLayout.createSequentialGroup()
+                .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCenterLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSales, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(pnlCenterLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnChangePassword)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlManager, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        pnlCenterLayout.setVerticalGroup(
+            pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCenterLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSales)
+                    .addComponent(btnHistory))
+                .addGap(18, 18, 18)
+                .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExit)
+                    .addComponent(btnChangePassword))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCenterLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlManager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
+        );
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/coffee-shop.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
+
+        lblPhoto.setForeground(new java.awt.Color(255, 102, 102));
+        lblPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 102)));
+
+        lblFullname.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblFullname.setForeground(new java.awt.Color(255, 102, 102));
+        lblFullname.setText("Name");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,64 +228,29 @@ PolyCafeController {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(pnlCenter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(96, 96, 96)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnChangePassword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSales, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBillManager)
-                    .addComponent(btnDrinkManager, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnUserManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCategoryManager, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCardManager)
-                    .addComponent(btnRevenueManager, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addComponent(lblFullname)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFullname))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblFullname))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSales)
-                    .addComponent(btnHistory)
-                    .addComponent(btnDrinkManager)
-                    .addComponent(btnCategoryManager)
-                    .addComponent(btnCardManager))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnChangePassword)
-                    .addComponent(btnExit)
-                    .addComponent(btnBillManager)
-                    .addComponent(btnUserManager)
-                    .addComponent(btnRevenueManager))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlCenter, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -307,6 +351,8 @@ PolyCafeController {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblFullname;
     private javax.swing.JLabel lblPhoto;
+    private javax.swing.JPanel pnlCenter;
+    private javax.swing.JPanel pnlManager;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -316,6 +362,11 @@ PolyCafeController {
         
         this.showWelcomeJDialog(this);
         this.showLoginJDialog(this);
+        XIcon.setIcon(lblPhoto, "photos/" + XAuth.user.getPhoto());
+        lblFullname.setText(XAuth.user.getFullname());
+        if(!XAuth.user.isManager()){
+            pnlCenter.remove(pnlManager);
+        }
     }
 
     @Override

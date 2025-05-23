@@ -5,7 +5,6 @@
 package poly.cafe.dao;
 
 import java.util.List;
-import poly.cafe.entity.Category;
 import poly.cafe.entity.Drink;
 import poly.cafe.util.XJdbc;
 import poly.cafe.util.XQuery;
@@ -33,7 +32,7 @@ public class DrinkDAOImpl implements DrinkDAO{
         entity.getDiscount(),
         entity.getImage(),
         entity.getUnitPrice(),
-        entity.getAvailable(),
+        entity.isAvailable(),
         entity.getCategoryId()
         };
         XJdbc.executeUpdate(createSql, values);
@@ -48,7 +47,7 @@ public class DrinkDAOImpl implements DrinkDAO{
          entity.getDiscount(),
          entity.getImage(),
         entity.getUnitPrice(),
-        entity.getAvailable(),
+        entity.isAvailable(),
         entity.getCategoryId()
         };
         XJdbc.executeUpdate(updateSql, values);   
