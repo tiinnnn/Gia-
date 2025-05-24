@@ -224,26 +224,24 @@ public class ChangePasswordJDialog extends javax.swing.JDialog implements Change
 
     @Override
     public void save() {
-     String username = txtUsername.getText(); 
-    String password = txtPassword.getText(); 
-    String newpass = txtNewpass.getText(); 
-    String confirm = txtConfirm.getText();
-    if (!newpass.equals(confirm)) { 
-    XDialog.alert("Xác nhận mật khẩu không đúng!"); 
-    } else if (!username.equals(XAuth.user.getUsername())) { 
-    XDialog.alert("Sai tên đăng nhập!"); 
-    } else if (!password.equals(XAuth.user.getPassword())) { 
-    XDialog.alert("Sai mật khẩu!"); 
-    } else { 
-    XAuth.user.setPassword(newpass); 
-    dao.update(XAuth.user); 
-    XDialog.alert("Đổi mật khẩu thành công!"); 
-}
-    
+        String username = txtUsername.getText(); 
+        String password = txtPassword.getText(); 
+        String newpass = txtNewpass.getText(); 
+        String confirm = txtConfirm.getText();
+        if (!newpass.equals(confirm)) { 
+            XDialog.alert("Xác nhận mật khẩu không đúng!"); 
+        } else if (!username.equals(XAuth.user.getUsername())) { 
+            XDialog.alert("Sai tên đăng nhập!"); 
+        } else if (!password.equals(XAuth.user.getPassword())) { 
+            XDialog.alert("Sai mật khẩu!"); 
+        } else { 
+            XAuth.user.setPassword(newpass); 
+            dao.update(XAuth.user); 
+            XDialog.alert("Đổi mật khẩu thành công!"); 
+        }   
     }
-
     @Override
     public void close() {
-     this.dispose();
-}
+        this.dispose();
+    }
 }

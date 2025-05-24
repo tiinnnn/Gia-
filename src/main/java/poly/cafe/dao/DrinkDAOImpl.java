@@ -15,7 +15,7 @@ import poly.cafe.util.XQuery;
  */
 public class DrinkDAOImpl implements DrinkDAO{
     String createSql = "INSERT INTO Drinks(Id, Name,UnitPrice,Discount,Image,Available,CategoryId) VALUES(?, ?, ?, ?, ?, ?, ?)";
-    String updateSql = "UPDATE Drinks SET Name=? UnitPrice=? Discount=? Image=? Available=? CategoryId=?  WHERE Id=? ";
+    String updateSql = "UPDATE Drinks SET Name=?, UnitPrice=?, Discount=?, Image=?, Available=?, CategoryId=?  WHERE Id=? ";
     String deleteSql = "DELETE FROM Drinks WHERE Id=?";
     String findAllSql = "SELECT * FROM Drinks";
     String findByIdSql = "SELECT * FROM Drinks WHERE Id=?";
