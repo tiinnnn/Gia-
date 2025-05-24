@@ -4,11 +4,16 @@
  */
 package poly.cafe.ui;
 
+import poly.cafe.dao.UserDAO;
+import poly.cafe.dao.UserDAOImpl;
+import poly.cafe.util.XAuth;
+import poly.cafe.util.XDialog;
+
 /**
  *
  * @author Admin
  */
-public class ChangePasswordJDialog extends javax.swing.JDialog {
+public class ChangePasswordJDialog extends javax.swing.JDialog implements ChangePasswordController {
 
     /**
      * Creates new form ChangePasswordJDialog
@@ -16,6 +21,7 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
     public ChangePasswordJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        open();
     }
 
     /**
@@ -33,10 +39,10 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JTextField();
+        txtConfirm = new javax.swing.JTextField();
+        txtNewpass = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
 
@@ -57,9 +63,9 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Xác nhận mật khẩu mới");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtPasswordActionPerformed(evt);
             }
         });
 
@@ -71,6 +77,11 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
         });
 
         btnClose.setText("Đóng");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,14 +103,14 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
                                 .addComponent(btnClose))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNewpass, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel5))))))
                 .addContainerGap(16, Short.MAX_VALUE))
@@ -117,16 +128,16 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNewpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnClose)
@@ -137,13 +148,17 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtPasswordActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        save();
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        close();
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,9 +211,39 @@ public class ChangePasswordJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txtConfirm;
+    private javax.swing.JTextField txtNewpass;
+    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+    UserDAO dao = new UserDAOImpl(); 
+    @Override
+    public void open() {
+       this.setLocationRelativeTo(null);
+    }
+
+    @Override
+    public void save() {
+     String username = txtUsername.getText(); 
+    String password = txtPassword.getText(); 
+    String newpass = txtNewpass.getText(); 
+    String confirm = txtConfirm.getText();
+    if (!newpass.equals(confirm)) { 
+    XDialog.alert("Xác nhận mật khẩu không đúng!"); 
+    } else if (!username.equals(XAuth.user.getUsername())) { 
+    XDialog.alert("Sai tên đăng nhập!"); 
+    } else if (!password.equals(XAuth.user.getPassword())) { 
+    XDialog.alert("Sai mật khẩu!"); 
+    } else { 
+    XAuth.user.setPassword(newpass); 
+    dao.update(XAuth.user); 
+    XDialog.alert("Đổi mật khẩu thành công!"); 
+}
+    
+    }
+
+    @Override
+    public void close() {
+     this.dispose();
+}
 }
