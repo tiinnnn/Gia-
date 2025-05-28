@@ -597,7 +597,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
 
     @Override
     public void clear() {
-        txtPwConfirm.setText(" ");
+        txtPwConfirm.setText("");
         this.setForm(new User());
         this.setEditable(false);
     }
