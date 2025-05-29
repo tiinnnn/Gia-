@@ -42,13 +42,13 @@ public class DrinkDAOImpl implements DrinkDAO{
     @Override
     public void update(Drink entity) {
         Object[] values = {
-         entity.getName(),
-         entity.getId(),
-         entity.getDiscount(),
-         entity.getImage(),
+        entity.getName(),
         entity.getUnitPrice(),
+        entity.getDiscount(),
+        entity.getImage(),       
         entity.isAvailable(),
-        entity.getCategoryId()
+        entity.getCategoryId(),
+        entity.getId()
         };
         XJdbc.executeUpdate(updateSql, values);   
     }
