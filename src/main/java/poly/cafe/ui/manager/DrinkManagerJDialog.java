@@ -4,11 +4,25 @@
  */
 package poly.cafe.ui.manager;
 
+
+import java.io.File;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
+import poly.cafe.dao.CategoryDAO;
+import poly.cafe.dao.CategoryDAOImpl;
+import poly.cafe.dao.DrinkDAO;
+import poly.cafe.dao.DrinkDAOImpl;
+import poly.cafe.entity.Category;
+import poly.cafe.entity.Drink;
+import poly.cafe.util.XIcon;
+
 /**
  *
  * @author LENOVO
  */
-public class DrinkManagerJDialog extends javax.swing.JDialog {
+public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkController{
 
     /**
      * Creates new form DrinkManagerJDialog
@@ -33,9 +47,9 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblCategories = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDrinks = new javax.swing.JTable();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
@@ -58,17 +72,17 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jSlider1 = new javax.swing.JSlider();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboCategories = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
-        jLabel8 = new javax.swing.JLabel();
+        lblImage = new javax.swing.JLabel();
 
         jScrollPane1.setViewportView(jTextPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblCategories.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -79,9 +93,9 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
                 "Loại đồ uống"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(tblCategories);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDrinks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -100,7 +114,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblDrinks);
 
         jButton12.setText("Chọn tất cả");
 
@@ -180,7 +194,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
 
         jLabel6.setText("Loại ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboCategories.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel7.setText("Trạng thái");
 
@@ -190,7 +204,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Hết hàng");
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/trump-small.png"))); // NOI18N
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/trump-small.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -221,7 +235,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
                                 .addComponent(jLabel1))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
-                                .addComponent(jLabel8)))
+                                .addComponent(lblImage)))
                         .addGap(62, 62, 62)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -240,7 +254,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cboCategories, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(150, 150, 150)
                                 .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -258,7 +272,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
+                    .addComponent(lblImage)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -280,7 +294,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboCategories, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jRadioButton1)
                             .addComponent(jRadioButton2))))
                 .addGap(87, 87, 87)
@@ -363,6 +377,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cboCategories;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
@@ -374,7 +389,6 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -382,7 +396,6 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRadioButton1;
@@ -392,11 +405,136 @@ public class DrinkManagerJDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JLabel lblImage;
+    private javax.swing.JTable tblCategories;
+    private javax.swing.JTable tblDrinks;
     // End of variables declaration//GEN-END:variables
+    DrinkDAO dao = new DrinkDAOImpl();
+    List<Drink> items = List.of();
+    List<Category> items2 = List.of();
+    @Override
+    public void fillCategories() {
+        DefaultComboBoxModel cboModel = (DefaultComboBoxModel) cboCategories.getModel();
+        cboModel.removeAllElements();
+        DefaultTableModel tblModel = (DefaultTableModel) tblCategories.getModel();
+        tblModel.setRowCount(0);
+        CategoryDAO cdao = new CategoryDAOImpl();
+        items2 = cdao.findAll();
+        items2.forEach(category -> {
+        cboModel.addElement(category);
+        tblModel.addRow(new Object[]{category.getName()});
+        });
+        tblCategories.setRowSelectionInterval(0, 0);
+    }
+
+    @Override
+    public void chooseFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+        File selectedFile = fileChooser.getSelectedFile();
+        File file = XIcon.copyTo(selectedFile, "images");
+        lblImage.setToolTipText(file.getName());
+        XIcon.setIcon(lblImage, file);
+        }
+    }
+
+    @Override
+    public void open() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setForm(Drink entity) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Drink getForm() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void fillToTable() {
+        DefaultTableModel model = (DefaultTableModel) tblDrinks.getModel();
+        model.setRowCount(0);
+        Category category = items2.get(tblCategories.getSelectedRow());
+        items = dao.findByCategoryId(category.getId()); // thay vì findAll()
+        items.forEach(item -> {
+        });
+        this.clear();
+    }
+
+    @Override
+    public void edit() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void create() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void delete() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setEditable(boolean editable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void checkAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void uncheckAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void deleteCheckedItems() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void moveFirst() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void movePrevious() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void moveNext() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void moveLast() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void moveTo(int rowIndex) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
