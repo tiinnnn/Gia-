@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -12,9 +13,9 @@ import poly.cafe.entity.BillDetail;
  * @author LENOVO
  */
 public class BillDetailDAOImpl implements BillDetailDAO{
-    String createSql = "…";
-    String updateSql = "…";
-    String deleteSql = "…";
+    String createSql = "INSERT INTO BillDetails(Id, BillId, DrinkId, UnitPrice, Discount, Quantity) VALUES(?, ?, ?, ?, ?, ?)";
+    String updateSql = "UPDATE BillDetails SET BillId=?, DrinkId=?, UnitPrice=?, Discount=?, Quantity=? WHERE Id=?";
+    String deleteSql = "DELETE FROM BillDetails WHERE Id=?";
     String findAllSql = "SELECT bd.*, d.name AS drinkName\n" + "FROM BillDetails bd JOIN Drinks d ON d.Id=bd.DrinkId";
     String findByIdSql = "SELECT bd.*, d.name AS drinkName\n" + "FROM BillDetails bd JOIN Drinks d ON d.Id=bd.DrinkId WHERE bd.Id=?";
     String findByBillIdSql = "SELECT bd.*, d.name AS drinkName\n" + "FROM BillDetails bd JOIN Drinks d ON d.Id=bd.DrinkId WHERE bd.BillId=?";
