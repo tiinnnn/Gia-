@@ -30,14 +30,14 @@ public class BillDAOImpl implements BillDAO{
 
     @Override
     public List<Bill> findByCardId(Integer cardId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return XQuery.getBeanList(Bill.class, findByCardIdSql, cardId);
     }
 
     @Override
     public Bill create(Bill entity) {
         Object[] values = {
-        entity.getId(),
         entity.getUsername(),
+        entity.getId(),
         entity.getCardId(),
         entity.getCheckin(),
         entity.getCheckout(),
@@ -49,22 +49,32 @@ public class BillDAOImpl implements BillDAO{
 
     @Override
     public void update(Bill entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] values = {
+        
+        entity.getUsername(),
+        entity.getCardId(),
+        entity.getCheckin(),
+        entity.getCheckout(),
+        entity.getStatus(),
+        entity.getId()
+        };
+        XJdbc.executeUpdate(updateSql, values);
+        
     }
 
     @Override
     public void deleteById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        XJdbc.executeUpdate(deleteSql, id);
     }
 
     @Override
     public List<Bill> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    return XQuery.getBeanList(Bill.class, findAllSql);       
     }
 
     @Override
     public Bill findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return XQuery.getSingleBean(Bill.class, findByIdSql, id);  
     }
 
     @Override

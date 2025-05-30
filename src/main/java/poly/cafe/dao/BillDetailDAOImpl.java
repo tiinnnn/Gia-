@@ -7,6 +7,8 @@ package poly.cafe.dao;
 
 import java.util.List;
 import poly.cafe.entity.BillDetail;
+import poly.cafe.util.XJdbc;
+import poly.cafe.util.XQuery;
 
 /**
  *
@@ -22,37 +24,53 @@ public class BillDetailDAOImpl implements BillDetailDAO{
     String findByDrinkIdSql = "SELECT bd.*, d.name AS drinkName\n" + "BillDetails bd JOIN Drinks d ON d.Id=bd.DrinkId WHERE bd.DrinkId=?";
     @Override
     public List<BillDetail> findByBillId(Long billId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+       return XQuery.getBeanList(BillDetail.class, findByBillIdSql, billId);  }
 
     @Override
     public List<BillDetail> findByDrinkId(String drinkId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        return XQuery.getBeanList(BillDetail.class, findByDrinkIdSql, drinkId);}
 
     @Override
     public BillDetail create(BillDetail entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       Object[] values = {
+        entity.getId(),
+        entity.getBillId(),
+        entity.getDrinkId(),
+        entity.getUnitPrice(),
+        entity.getDiscount(),
+        entity.getQuantity()
+        };
+        XJdbc.executeUpdate(createSql, values);
+        return entity;
     }
 
     @Override
     public void update(BillDetail entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+       Object[] values = {
+        
+        entity.getBillId(),
+        entity.getDrinkId(),
+        entity.getUnitPrice(),
+        entity.getDiscount(),
+        entity.getQuantity(),
+        entity.getId()
+        };
+        XJdbc.executeUpdate(updateSql, values);
+        }
 
     @Override
     public void deleteById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        XJdbc.executeUpdate(deleteSql, id);
     }
 
     @Override
     public List<BillDetail> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return XQuery.getBeanList(BillDetail.class, findAllSql);       
     }
 
     @Override
     public BillDetail findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+       return XQuery.getSingleBean(BillDetail.class, findByIdSql, id);  
+     }
     
 }
