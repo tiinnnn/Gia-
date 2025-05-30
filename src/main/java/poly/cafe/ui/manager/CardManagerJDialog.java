@@ -125,13 +125,13 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
                 .addComponent(btnUncheckAll)
                 .addGap(18, 18, 18)
                 .addComponent(btnDeleteCheckedItems)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUncheckAll)
@@ -226,9 +226,9 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
                         .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnClear)
-                        .addGap(55, 55, 55)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                         .addComponent(btnMoveFirst)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnMovePrevious)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnMoveNext)
@@ -288,15 +288,11 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabs)
-                .addContainerGap())
+                .addComponent(tabs))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -451,17 +447,32 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     @Override
     public void fillToTable() {
-        DefaultTableModel model = (DefaultTableModel) tblCards.getModel();
-        model.setRowCount(0);
-        items = dao.findAll();
-        items.forEach(item -> {
+         DefaultTableModel model = (DefaultTableModel) tblCards.getModel();
+    model.setRowCount(0);
+    items = dao.findAll();
+    items.forEach(item -> {
+        String statusText;
+        switch (item.getStatus()) {
+            case 0:
+                statusText = "Operating";
+                break;
+            case 1:
+                statusText = "Error";
+                break;
+            case 2:
+                statusText = "Lose";
+                break;
+            default:
+                statusText = "Unknown";
+        }
+
         Object[] rowData = {
-        item.getId(),
-        item.getStatus(),
-        false
+            item.getId(),
+            statusText,
+            false
         };
         model.addRow(rowData);
-        });
+    });
     }
 
     @Override

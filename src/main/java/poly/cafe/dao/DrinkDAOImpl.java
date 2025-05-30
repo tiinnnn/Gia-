@@ -19,7 +19,7 @@ public class DrinkDAOImpl implements DrinkDAO{
     String deleteSql = "DELETE FROM Drinks WHERE Id=?";
     String findAllSql = "SELECT * FROM Drinks";
     String findByIdSql = "SELECT * FROM Drinks WHERE Id=?";
-    String findByCategoryIdSql = "SELECT * FROM Drinks WHERE CategoryId=?";
+    String findByCategoryIdSql = "SELECT Id, Name,UnitPrice,Discount,Available,CategoryId FROM Drinks WHERE CategoryId=?";
     @Override
     public List<Drink> findByCategoryId(String categoryId) {
         return XQuery.getBeanList(Drink.class, findByCategoryIdSql, categoryId);    
@@ -30,9 +30,9 @@ public class DrinkDAOImpl implements DrinkDAO{
         Object[] values = {
         entity.getId(),
         entity.getName(),
-        entity.getDiscount(),
-        entity.getImage(),
         entity.getUnitPrice(),
+        entity.getDiscount(),
+        entity.getImage(),       
         entity.isAvailable(),
         entity.getCategoryId()
         };
