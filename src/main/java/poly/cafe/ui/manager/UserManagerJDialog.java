@@ -519,9 +519,9 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
         ImageIcon icon = new ImageIcon(entity.getPhoto());
         lbPhoto.setIcon(icon);
         if (entity.isEnabled()){
-            rdoEnabled.setSelected(false);
+            rdoEnabled.setSelected(true);
         }else{
-            jRadioButton4.setSelected(false);
+            jRadioButton4.setSelected(true);
         }
         if (entity.isManager()){
             rdoManager.setSelected(true);
