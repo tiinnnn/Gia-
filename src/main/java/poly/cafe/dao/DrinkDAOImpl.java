@@ -22,7 +22,8 @@ public class DrinkDAOImpl implements DrinkDAO{
     String findByCategoryIdSql = "SELECT * FROM Drinks WHERE CategoryId=?";
     @Override
     public List<Drink> findByCategoryId(String categoryId) {
-        return XQuery.getBeanList(Drink.class, findByCategoryIdSql, categoryId);    }
+        return XQuery.getBeanList(Drink.class, findByCategoryIdSql, categoryId);    
+    }
 
     @Override
     public Drink create(Drink entity) {

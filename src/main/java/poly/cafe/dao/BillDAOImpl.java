@@ -7,6 +7,7 @@ package poly.cafe.dao;
 import java.util.Date;
 import java.util.List;
 import poly.cafe.entity.Bill;
+import poly.cafe.util.XJdbc;
 import poly.cafe.util.XQuery;
 
 /**
@@ -24,7 +25,7 @@ public class BillDAOImpl implements BillDAO{
     String findByTimeRangeSql = "SELECT * FROM Bills WHERE Checkin BETWEEN ? AND ? ORDER BY Checkin DESC";
     @Override
     public List<Bill> findByUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return XQuery.getBeanList(Bill.class, findByUsernameSql, username);    
     }
 
     @Override
@@ -34,7 +35,16 @@ public class BillDAOImpl implements BillDAO{
 
     @Override
     public Bill create(Bill entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] values = {
+        entity.getId(),
+        entity.getUsername(),
+        entity.getCardId(),
+        entity.getCheckin(),
+        entity.getCheckout(),
+        entity.getStatus()
+        };
+        XJdbc.executeUpdate(createSql, values);
+        return entity;
     }
 
     @Override
