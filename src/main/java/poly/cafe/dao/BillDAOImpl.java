@@ -15,6 +15,16 @@ import poly.cafe.util.XQuery;
  * @author LENOVO
  */
 public class BillDAOImpl implements BillDAO{
+    
+    
+    
+    private final String findByTimeRangeSql = 
+        "SELECT * FROM Bills WHERE Checkin BETWEEN ? AND ? ORDER BY Checkin DESC";
+
+    @Override
+    public List<Bill> findByTimeRange(Date begin, Date end) {
+        return XQuery.getBeanList(Bill.class, findByTimeRangeSql, begin, end);
+    }
     String createSql = "INSERT INTO Bills(Id, Username, CardId, Checkin, Checkout, Status) VALUES(?, ?, ?, ?, ?, ?)";
     String updateSql = "UPDATE Bills SET Username=?, CardId=?, Checkin=?, Checkout=?, Status=? WHERE Id=?";
     String deleteSql = "DELETE FROM Bills WHERE Id=?";
@@ -22,7 +32,7 @@ public class BillDAOImpl implements BillDAO{
     String findByIdSql = "SELECT * FROM Bills WHERE Id=?";
     String findByUsernameSql = "SELECT * FROM Bills WHERE Username=?";
     String findByCardIdSql = "SELECT * FROM Bills WHERE CardId=?";
-    String findByTimeRangeSql = "SELECT * FROM Bills WHERE Checkin BETWEEN ? AND ? ORDER BY Checkin DESC";
+   
     @Override
     public List<Bill> findByUsername(String username) {
         return XQuery.getBeanList(Bill.class, findByUsernameSql, username);    
@@ -75,11 +85,6 @@ public class BillDAOImpl implements BillDAO{
     @Override
     public Bill findById(Long id) {
         return XQuery.getSingleBean(Bill.class, findByIdSql, id);  
-    }
-
-    @Override
-    public List<Bill> findByTimeRange(Date begin, Date end) {
-        return XQuery.getBeanList(Bill.class, findByTimeRangeSql, begin, end);
-    }
-    
+    }  
 }
+
