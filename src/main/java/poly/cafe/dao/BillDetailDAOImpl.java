@@ -46,8 +46,7 @@ public class BillDetailDAOImpl implements BillDetailDAO{
 
     @Override
     public void update(BillDetail entity) {
-       Object[] values = {
-        
+       Object[] values = {       
         entity.getBillId(),
         entity.getDrinkId(),
         entity.getUnitPrice(),

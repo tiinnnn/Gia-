@@ -6,9 +6,6 @@ package poly.cafe.ui.manager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,8 +17,6 @@ import poly.cafe.dao.BillDetailDAO;
 import poly.cafe.dao.BillDetailDAOImpl;
 import poly.cafe.entity.Bill;
 import poly.cafe.entity.BillDetail;
-import poly.cafe.entity.Category;
-import poly.cafe.entity.Drink;
 import poly.cafe.util.TimeRange;
 import poly.cafe.util.XDate;
 import poly.cafe.util.XDialog;
@@ -39,90 +34,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         super(parent, modal);
         initComponents();
     }
-      BillDAO dao = new BillDAOImpl();
-    List<Bill> items= List.of(); // phiếu bán hàng
-    BillDetailDAO billDetailDao = new BillDetailDAOImpl();
-    List<BillDetail> details = List.of(); // chi tiết phiếu bán hàng
-    @Override
-    public void open() {
-     this.setLocationRelativeTo(null);
-     this.selectTimeRange();
-     this.clear();
-    }
-    @Override
-    public void setForm(Bill entity) {
-        txtId.setText(String.valueOf(entity.getId()));
-        txtUsername.setText(entity.getUsername());    
-        txtCardid.setText(String.valueOf(entity.getCardId()));
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        txtCheckin.setText(formatter.format(entity.getCheckin()));
-        txtCheckout.setText(formatter.format(entity.getCheckout()));
-        if (entity.getStatus() == 0){
-            rdStatus1.setSelected(true);
-        }else if(entity.getStatus()==1){
-            rdStatus2.setSelected(true);
-        }else if(entity.getStatus() ==2){
-             rdStatus3.setSelected(true);
-        }
-        
-     this.fillBillDetails();
-    }
-    @Override
-    public void fillBillDetails() {
-     DefaultTableModel model = (DefaultTableModel) tblBillDetails.getModel();
-     model.setRowCount(0);
-     details = List.of();
-     if (!txtId.getText().isBlank()) {
-     Long billId = Long.valueOf(txtId.getText());
-     details = billDetailDao.findByBillId(billId);
-     } 
-     details.forEach(d -> {
-     var amount = d.getUnitPrice() * d.getQuantity() * (1 - d.getDiscount());
-     Object[] rowData = {
-     d.getDrinkName(),
-     String.format("%.1f VNĐ", d.getUnitPrice()),
-     String.format("%.0f%%", d.getDiscount() * 100),
-     d.getQuantity(), String.format("%.1f VNĐ", amount)
-     };
-
-     model.addRow(rowData);
-     });
-    }
-    @Override
-    public void selectTimeRange() {
-     TimeRange range = TimeRange.today();
-     switch (cboTimeRanges.getSelectedIndex()) {
-     case 0 -> range = TimeRange.today();
-     case 1 -> range = TimeRange.thisWeek();
-     case 2 -> range = TimeRange.thisMonth();
-     case 3 -> range = TimeRange.thisQuarter();
-     case 4 -> range = TimeRange.thisYear();
-     }
-     txtBegin.setText(XDate.format(range.getBegin(), "MM/dd/yyyy"));
-     txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy"));
-     this.fillToTable();
-    }
-    @Override
-    public void fillToTable() {
-     DefaultTableModel model = (DefaultTableModel) tblBills.getModel();
-     model.setRowCount(0);
-    Date begin = XDate.parse(txtBegin.getText(), "MM/dd/yyyy");
-    Date end = XDate.parse(txtEnd.getText(), "MM/dd/yyyy");
-
-     items = dao.findByTimeRange(begin, end);
-     items.forEach(item -> {   Object[]rowData={
-                item.getId(),
-                item.getCardId(),
-                item.getCheckin(),
-                item.getCheckout(),
-                item.getStatus(), 
-                item.getUsername(),
-                false
-            };
-        model.addRow(rowData);});
-    }
-
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -317,17 +229,17 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBegin, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(42, 42, 42)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
                         .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 913, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -348,7 +260,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                     .addComponent(btncheckAll)
                     .addComponent(btndeleteChecked)
                     .addComponent(btnuncheck))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         tabs.addTab("Danh sách", jPanel2);
@@ -490,13 +402,13 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                             .addComponent(txtCheckout)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 73, Short.MAX_VALUE))))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(492, 492, 492)
+                            .addGap(519, 519, 519)
                             .addComponent(btnMoveFirst)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btnMovePrevious)
@@ -513,7 +425,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnClear)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 846, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -569,13 +481,17 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabs)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabs)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -638,15 +554,15 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     }//GEN-LAST:event_txtCardidActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    this.selectTimeRange();
+        this.selectTimeRange();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnuncheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuncheckActionPerformed
-          this.uncheckAll();
+        this.uncheckAll();
     }//GEN-LAST:event_btnuncheckActionPerformed
 
     private void btndeleteCheckedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteCheckedActionPerformed
-         this.deleteCheckedItems();
+        this.deleteCheckedItems();
     }//GEN-LAST:event_btndeleteCheckedActionPerformed
 
     private void tblBillsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBillsMouseClicked
@@ -656,7 +572,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     }//GEN-LAST:event_tblBillsMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-          this.open();
+        this.open();
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -756,14 +672,104 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+    BillDAO dao = new BillDAOImpl();
+    List<Bill> items= List.of(); // phiếu bán hàng
+    BillDetailDAO billDetailDao = new BillDetailDAOImpl();
+    List<BillDetail> details = List.of(); // chi tiết phiếu bán hàng
+    @Override
+    public void open() {
+     this.setLocationRelativeTo(null);
+     this.selectTimeRange();
+     this.fillBillDetails();
+     this.clear();
+    }
+    @Override
+    public void setForm(Bill entity) {
+        txtId.setText(entity.getId() != null ? entity.getId().toString() : "");
+    txtUsername.setText(entity.getUsername() != null ? entity.getUsername() : "");    
+    txtCardid.setText(entity.getCardId() != null ? entity.getCardId().toString() : "");
+    txtCheckin.setText(entity.getCheckin() != null ? XDate.format(entity.getCheckin(), XDate.PATTERN_FULL) : "");
+    txtCheckout.setText(entity.getCheckout() != null ? XDate.format(entity.getCheckout(), XDate.PATTERN_FULL) : "");
+    
+    switch (entity.getStatus()) {
+        case 0:
+            rdStatus1.setSelected(true);
+            break;
+        case 1:
+            rdStatus2.setSelected(true);
+            break;
+        case 2:
+            rdStatus3.setSelected(true);
+            break;
+        default:
+            // Nếu status không hợp lệ thì có thể clear chọn
+            rdStatus1.setSelected(false);
+            rdStatus2.setSelected(false);
+            rdStatus3.setSelected(false);
+            break;
+    }
+    this.fillBillDetails();
+    }
+    @Override
+    public void fillBillDetails() {
+     DefaultTableModel model = (DefaultTableModel) tblBillDetails.getModel();
+     model.setRowCount(0);
+     details = List.of();
+     if (!txtId.getText().isBlank()) {
+     Long billId = Long.valueOf(txtId.getText());
+     details = billDetailDao.findByBillId(billId);
+     } 
+     details.forEach(d -> {
+     var amount = d.getUnitPrice() * d.getQuantity() * (1 - d.getDiscount());
+     Object[] rowData = {
+     d.getDrinkName(),
+     String.format("%.1f VNĐ", d.getUnitPrice()),
+     String.format("%.0f%%", d.getDiscount() * 100),
+     d.getQuantity(), String.format("%.1f VNĐ", amount)
+     };
+
+     model.addRow(rowData);
+     });
+    }
+    @Override
+    public void selectTimeRange() {
+     TimeRange range = TimeRange.today();
+     switch (cboTimeRanges.getSelectedIndex()) {
+     case 0 -> range = TimeRange.today();
+     case 1 -> range = TimeRange.thisWeek();
+     case 2 -> range = TimeRange.thisMonth();
+     case 3 -> range = TimeRange.thisQuarter();
+     case 4 -> range = TimeRange.thisYear();
+     }
+     txtBegin.setText(XDate.format(range.getBegin(), "MM/dd/yyyy"));
+     txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy"));
+     this.fillToTable();
+    }
+    @Override
+    public void fillToTable() {
+     DefaultTableModel model = (DefaultTableModel) tblBills.getModel();
+     model.setRowCount(0);
+    Date begin = XDate.parse(txtBegin.getText(), "MM/dd/yyyy");
+    Date end = XDate.parse(txtEnd.getText(), "MM/dd/yyyy");
+
+     items = dao.findByTimeRange(begin, end);
+     items.forEach(item -> {   Object[]rowData={
+                item.getId(),
+                item.getCardId(),
+                XDate.format(item.getCheckin(), XDate.PATTERN_SHORT),
+                XDate.format(item.getCheckout(), XDate.PATTERN_SHORT), 
+                item.getStatus(), 
+                item.getUsername(),
+                false
+            };
+        model.addRow(rowData);});
+    }
 
     @Override
-    public Bill getForm() {
-        
+    public Bill getForm() {  
         Bill entity = new Bill();
         entity.setId(Long.valueOf(txtId.getText()));
-        entity.setCardId(Integer.valueOf(txtCardid.getText()));     
-        
+        entity.setCardId(Integer.valueOf(txtCardid.getText()));             
         String checkinText = txtCheckin.getText();
         String checkoutText = txtCheckout.getText();        
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -821,7 +827,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
     @Override
     public void clear() {
-         this.setForm(new Bill());
+        this.setForm(new Bill());
         this.setEditable(false);
     }
 
