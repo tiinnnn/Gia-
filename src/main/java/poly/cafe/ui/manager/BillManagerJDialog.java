@@ -4,12 +4,15 @@
  */
 package poly.cafe.ui.manager;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import poly.cafe.dao.BillDAO;
 import poly.cafe.dao.BillDAOImpl;
@@ -718,23 +721,29 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     @Override
     public Bill getForm() {
         
-      Bill entity = new Bill();
+        Bill entity = new Bill();
         entity.setId(Long.valueOf(txtId.getText()));
-        entity.setCardId(Integer.valueOf(txtCardid.getText()));  
+        entity.setCardId(Integer.valueOf(txtCardid.getText()));     
         
-        Date date = new Date(); // hoặc bất kỳ đối tượng Date nào
+        String checkinText = txtCheckin.getText();
+        String checkoutText = txtCheckout.getText();        
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        String dateStr = formatter.format(txtCheckin.getText());
-        String dateSts = formatter.format(txtCheckout.getText());
-        entity.setCheckin(dateStr);
-        
-
-        
-       
-        
-        
-        
+        try {
+            Date checkinDate = formatter.parse(checkinText);
+            Date checkoutDate = formatter.parse(checkoutText);
+            entity.setCheckin(checkinDate);  // Lưu vào kiểu Date
+            entity.setCheckout(checkoutDate);
+        } catch (ParseException ex) {
+            Logger.getLogger(BillManagerJDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        entity.setUsername(txtUsername.getText());
+        if(rdStatus1.isSelected()){
+            entity.setStatus(0);
+        }else if(rdStatus2.isSelected()){
+            entity.setStatus(1);
+        }else if(rdStatus3.isSelected()){
+            entity.setStatus(2);
+        }
         return entity;  
     }
 
