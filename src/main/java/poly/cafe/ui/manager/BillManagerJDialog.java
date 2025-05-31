@@ -24,6 +24,7 @@ import poly.cafe.entity.Category;
 import poly.cafe.entity.Drink;
 import poly.cafe.util.TimeRange;
 import poly.cafe.util.XDate;
+import poly.cafe.util.XDialog;
 
 /**
  *
@@ -147,7 +148,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         txtBegin = new javax.swing.JTextField();
@@ -225,6 +226,11 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         jButton3.setText("8");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel4.setText("Từ ngày");
 
@@ -264,9 +270,19 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                 return types [columnIndex];
             }
         });
+        tblBills.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBillsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblBills);
 
         btnuncheck.setText("Bỏ chọn tất cả");
+        btnuncheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnuncheckActionPerformed(evt);
+            }
+        });
 
         btncheckAll.setText("Chọn tất cả");
         btncheckAll.addActionListener(new java.awt.event.ActionListener() {
@@ -276,6 +292,11 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         });
 
         btndeleteChecked.setText("Xóa các mục chọn");
+        btndeleteChecked.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndeleteCheckedActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -327,10 +348,10 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                     .addComponent(btncheckAll)
                     .addComponent(btndeleteChecked)
                     .addComponent(btnuncheck))
-                .addContainerGap(292, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
-        jTabbedPane3.addTab("Danh sách", jPanel2);
+        tabs.addTab("Danh sách", jPanel2);
 
         jLabel2.setText("Mã phiếu");
 
@@ -542,18 +563,18 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                 .addGap(260, 260, 260))
         );
 
-        jTabbedPane3.addTab("Biểu mẫu", jPanel3);
+        tabs.addTab("Biểu mẫu", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane3)
+            .addComponent(tabs)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -577,39 +598,39 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     }//GEN-LAST:event_cboTimeRangesActionPerformed
 
     private void btncheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncheckAllActionPerformed
-        // TODO add your handling code here:
+         this.checkAll();
     }//GEN-LAST:event_btncheckAllActionPerformed
 
     private void btnMoveLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveLastActionPerformed
-        //this.moveLast();
+        this.moveLast();
     }//GEN-LAST:event_btnMoveLastActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        //this.create();
+        this.create();
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        //this.update();
+        this.update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        //this.delete();
+        this.delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        //this.clear();
+        this.clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnMoveFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveFirstActionPerformed
-        //this.moveFirst();
+        this.moveFirst();
     }//GEN-LAST:event_btnMoveFirstActionPerformed
 
     private void btnMovePreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovePreviousActionPerformed
-        //this.movePrevious();
+        this.movePrevious();
     }//GEN-LAST:event_btnMovePreviousActionPerformed
 
     private void btnMoveNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveNextActionPerformed
-        //this.moveNext();
+        this.moveNext();
     }//GEN-LAST:event_btnMoveNextActionPerformed
 
     private void txtCardidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCardidActionPerformed
@@ -619,6 +640,24 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     this.selectTimeRange();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnuncheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuncheckActionPerformed
+          this.uncheckAll();
+    }//GEN-LAST:event_btnuncheckActionPerformed
+
+    private void btndeleteCheckedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteCheckedActionPerformed
+         this.deleteCheckedItems();
+    }//GEN-LAST:event_btndeleteCheckedActionPerformed
+
+    private void tblBillsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBillsMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.edit();
+        }
+    }//GEN-LAST:event_tblBillsMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+          this.open();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -695,7 +734,6 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField2;
@@ -707,6 +745,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     private javax.swing.JRadioButton rdStatus1;
     private javax.swing.JRadioButton rdStatus2;
     private javax.swing.JRadioButton rdStatus3;
+    private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblBillDetails;
     private javax.swing.JTable tblBills;
     private javax.swing.JTextField txtBegin;
@@ -749,71 +788,114 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
     @Override
     public void edit() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Bill entity = items.get(tblBills.getSelectedRow());
+        this.setForm(entity);
+        this.setEditable(true);
+        tabs.setSelectedIndex(1);
     }
 
     @Override
     public void create() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+     Bill entity = this.getForm();
+        dao.create(entity);
+        this.fillToTable();
+        this.clear();
     }
 
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         Bill entity = this.getForm();
+        dao.update(entity);
+        this.fillToTable();
     }
 
     @Override
     public void delete() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (XDialog.confirm("Bạn thực sự muốn xóa?")) {
+            Long Id = Long.valueOf(txtId.getText());
+            dao.deleteById(Id);
+            this.fillToTable();
+            this.clear();
+        }   
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         this.setForm(new Bill());
+        this.setEditable(false);
     }
 
     @Override
     public void setEditable(boolean editable) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       txtId.setEnabled(!editable);
+        btnCreate.setEnabled(!editable);
+        btnUpdate.setEnabled(editable);
+        btnDelete.setEnabled(editable);
+        int rowCount = tblBills.getRowCount();
+        btnMoveFirst.setEnabled(editable && rowCount > 0);
+        btnMovePrevious.setEnabled(editable && rowCount > 0);
+        btnMoveNext.setEnabled(editable && rowCount > 0);
+        btnMoveLast.setEnabled(editable && rowCount > 0); 
     }
 
     @Override
     public void checkAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      this.setCheckedAll(true);
     }
 
     @Override
     public void uncheckAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         this.setCheckedAll(false); 
     }
-
+    private void setCheckedAll(boolean checked) {
+        for (int i = 0; i < tblBills.getRowCount(); i++) {
+        tblBills.setValueAt(checked, i, 2);
+        }
+    }
     @Override
     public void deleteCheckedItems() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       if (XDialog.confirm("Bạn thực sự muốn xóa các mục chọn?")) {
+            for (int i = 0; i < tblBills.getRowCount(); i++) {
+                if ((Boolean) tblBills.getValueAt(i, 2)) {
+                    dao.deleteById(items.get(i).getId());
+                }
+            }
+            this.fillToTable();
+        }    
     }
 
     @Override
     public void moveFirst() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         this.moveTo(0); 
     }
 
     @Override
     public void movePrevious() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       this.moveTo(tblBills.getSelectedRow() - 1);
     }
 
     @Override
     public void moveNext() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         this.moveTo(tblBills.getSelectedRow() + 1);
     }
+    
 
     @Override
     public void moveLast() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         this.moveTo(tblBills.getRowCount() - 1);
     }
 
     @Override
-    public void moveTo(int rowIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void moveTo(int index) {
+      if (index < 0) {
+            this.moveLast();
+        } else if (index >= tblBills.getRowCount()) {
+            this.moveFirst();
+        } else {
+            tblBills.clearSelection();
+            tblBills.setRowSelectionInterval(index, index);
+            this.edit();
+        }    
     }
-}
+    }
+
