@@ -16,7 +16,6 @@ import poly.cafe.dao.DrinkDAO;
 import poly.cafe.dao.DrinkDAOImpl;
 import poly.cafe.entity.Category;
 import poly.cafe.entity.Drink;
-import poly.cafe.entity.User;
 import poly.cafe.util.XDialog;
 import poly.cafe.util.XIcon;
 
