@@ -4,11 +4,20 @@
  */
 package poly.cafe.ui.manager;
 
+import java.util.Date;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import poly.cafe.dao.RevenueDAO;
+import poly.cafe.dao.RevenueDAOImpl;
+import poly.cafe.entity.Revenue;
+import poly.cafe.util.TimeRange;
+import poly.cafe.util.XDate;
+
 /**
  *
  * @author LENOVO
  */
-public class RevenueManagerJDialog extends javax.swing.JDialog {
+public class RevenueManagerJDialog extends javax.swing.JDialog  implements RevenueController {
 
     /**
      * Creates new form RevenueManagerJDialog
@@ -42,14 +51,35 @@ public class RevenueManagerJDialog extends javax.swing.JDialog {
         tblByUser = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Từ ngày:");
 
         jLabel2.setText("Đến ngày:");
 
         btnFilter.setText("Lọc");
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterActionPerformed(evt);
+            }
+        });
 
         cboTimeRanges.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTimeRanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTimeRangesActionPerformed(evt);
+            }
+        });
+
+        tabs.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabsStateChanged(evt);
+            }
+        });
 
         tblByCategory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -155,6 +185,26 @@ public class RevenueManagerJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.open();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabsStateChanged
+        // TODO add your handling code here:
+        this.fillRevenue();
+    }//GEN-LAST:event_tabsStateChanged
+
+    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+        // TODO add your handling code here:
+        this.fillRevenue(); 
+    }//GEN-LAST:event_btnFilterActionPerformed
+
+    private void cboTimeRangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTimeRangesActionPerformed
+        // TODO add your handling code here:
+        this.selectTimeRange();
+    }//GEN-LAST:event_cboTimeRangesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -212,4 +262,68 @@ public class RevenueManagerJDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtBegin;
     private javax.swing.JTextField txtEnd;
     // End of variables declaration//GEN-END:variables
+    RevenueDAO dao = new RevenueDAOImpl(); 
+    @Override
+    public void open() {
+          this.setLocationRelativeTo(null); 
+    this.selectTimeRange(); 
+    }
+
+    @Override
+    public void selectTimeRange() {
+    TimeRange range = TimeRange.today(); 
+        switch (cboTimeRanges.getSelectedIndex()) { 
+        case 0 -> range = TimeRange.today(); 
+        case 1 -> range = TimeRange.thisWeek(); 
+        case 2 -> range = TimeRange.thisMonth(); 
+        case 3 -> range = TimeRange.thisQuarter(); 
+        case 4 -> range = TimeRange.thisYear(); 
+        } 
+    txtBegin.setText(XDate.format(range.getBegin(), "MM/dd/yyyy")); 
+    txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy")); 
+ 
+    this.fillRevenue();}
+
+    @Override
+    public void fillRevenue() {
+        Date begin = XDate.parse(txtBegin.getText(), "MM/dd/yyyy"); 
+    Date end = XDate.parse(txtEnd.getText(), "MM/dd/yyyy"); 
+    switch(tabs.getSelectedIndex()){ 
+        case 0 -> this.fillRevenueByCategory(begin, end); 
+        case 1 -> this.fillRevenueByUser(begin, end); 
+    }  
+    }
+    private void fillRevenueByCategory(Date begin, Date end) { 
+    List<Revenue.ByCategory> items = dao.getByCategory(begin, end); 
+ 
+    DefaultTableModel model = (DefaultTableModel) tblByCategory.getModel(); 
+    model.setRowCount(0); 
+    items.forEach(item -> { 
+        Object[] row = { 
+            item.getCategory(), 
+            String.format("$%.2f", item.getRevenue()), 
+            item.getQuantity(), 
+            String.format("$%.2f", item.getMinPrice()), 
+            String.format("$%.2f", item.getMaxPrice()), 
+            String.format("$%.2f", item.getAvgPrice()) 
+        }; 
+        model.addRow(row); 
+    }); 
+    }
+    private void fillRevenueByUser(Date begin, Date end) { 
+    List<Revenue.ByUser> items = dao.getByUser(begin, end); 
+ 
+    DefaultTableModel model = (DefaultTableModel) tblByUser.getModel(); 
+    model.setRowCount(0); 
+    items.forEach(item -> { 
+        Object[] row = { 
+            item.getUser(), 
+            String.format("$%.2f", item.getRevenue()), 
+            item.getQuantity(), 
+            XDate.format(item.getFirstTime(), "hh:mm:ss dd-MM-yyyy"), 
+            XDate.format(item.getLastTime(), "hh:mm:ss dd-MM-yyyy") 
+        }; 
+        model.addRow(row); 
+    }); 
+} 
 }
