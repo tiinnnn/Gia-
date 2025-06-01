@@ -68,7 +68,7 @@ public class RevenueManagerJDialog extends javax.swing.JDialog  implements Reven
             }
         });
 
-        cboTimeRanges.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTimeRanges.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hôm nay", "Tuần này", "Tháng này", "Quý này", "Năm nay" }));
         cboTimeRanges.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboTimeRangesActionPerformed(evt);
@@ -159,7 +159,7 @@ public class RevenueManagerJDialog extends javax.swing.JDialog  implements Reven
                 .addGap(18, 18, 18)
                 .addComponent(btnFilter)
                 .addGap(18, 18, 18)
-                .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -186,22 +186,18 @@ public class RevenueManagerJDialog extends javax.swing.JDialog  implements Reven
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
         this.open();
     }//GEN-LAST:event_formWindowOpened
 
     private void tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabsStateChanged
-        // TODO add your handling code here:
         this.fillRevenue();
     }//GEN-LAST:event_tabsStateChanged
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-        // TODO add your handling code here:
         this.fillRevenue(); 
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void cboTimeRangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTimeRangesActionPerformed
-        // TODO add your handling code here:
         this.selectTimeRange();
     }//GEN-LAST:event_cboTimeRangesActionPerformed
 
@@ -265,65 +261,65 @@ public class RevenueManagerJDialog extends javax.swing.JDialog  implements Reven
     RevenueDAO dao = new RevenueDAOImpl(); 
     @Override
     public void open() {
-          this.setLocationRelativeTo(null); 
-    this.selectTimeRange(); 
+        this.setLocationRelativeTo(null); 
+        this.selectTimeRange(); 
     }
 
     @Override
     public void selectTimeRange() {
-    TimeRange range = TimeRange.today(); 
-        switch (cboTimeRanges.getSelectedIndex()) { 
-        case 0 -> range = TimeRange.today(); 
-        case 1 -> range = TimeRange.thisWeek(); 
-        case 2 -> range = TimeRange.thisMonth(); 
-        case 3 -> range = TimeRange.thisQuarter(); 
-        case 4 -> range = TimeRange.thisYear(); 
+        TimeRange range = TimeRange.today(); 
+            switch (cboTimeRanges.getSelectedIndex()) { 
+            case 0 -> range = TimeRange.today(); 
+            case 1 -> range = TimeRange.thisWeek(); 
+            case 2 -> range = TimeRange.thisMonth(); 
+            case 3 -> range = TimeRange.thisQuarter(); 
+            case 4 -> range = TimeRange.thisYear(); 
         } 
-    txtBegin.setText(XDate.format(range.getBegin(), "MM/dd/yyyy")); 
-    txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy")); 
- 
-    this.fillRevenue();}
+        txtBegin.setText(XDate.format(range.getBegin(), "MM/dd/yyyy")); 
+        txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy")); 
+        this.fillRevenue();
+    }
 
     @Override
     public void fillRevenue() {
         Date begin = XDate.parse(txtBegin.getText(), "MM/dd/yyyy"); 
-    Date end = XDate.parse(txtEnd.getText(), "MM/dd/yyyy"); 
-    switch(tabs.getSelectedIndex()){ 
-        case 0 -> this.fillRevenueByCategory(begin, end); 
-        case 1 -> this.fillRevenueByUser(begin, end); 
-    }  
+        Date end = XDate.parse(txtEnd.getText(), "MM/dd/yyyy"); 
+        switch(tabs.getSelectedIndex()){ 
+            case 0 -> this.fillRevenueByCategory(begin, end); 
+            case 1 -> this.fillRevenueByUser(begin, end); 
+        }  
     }
     private void fillRevenueByCategory(Date begin, Date end) { 
-    List<Revenue.ByCategory> items = dao.getByCategory(begin, end); 
+        List<Revenue.ByCategory> items = dao.getByCategory(begin, end); 
  
-    DefaultTableModel model = (DefaultTableModel) tblByCategory.getModel(); 
-    model.setRowCount(0); 
-    items.forEach(item -> { 
-        Object[] row = { 
-            item.getCategory(), 
-            String.format("$%.2f", item.getRevenue()), 
-            item.getQuantity(), 
-            String.format("$%.2f", item.getMinPrice()), 
-            String.format("$%.2f", item.getMaxPrice()), 
-            String.format("$%.2f", item.getAvgPrice()) 
-        }; 
+        DefaultTableModel model = (DefaultTableModel) tblByCategory.getModel(); 
+        model.setRowCount(0); 
+        items.forEach(item -> { 
+            Object[] row = { 
+                item.getCategory(), 
+                String.format("$%.2f", item.getRevenue()), 
+                item.getQuantity(), 
+                String.format("$%.2f", item.getMinPrice()), 
+                String.format("$%.2f", item.getMaxPrice()), 
+                String.format("$%.2f", item.getAvgPrice()) 
+            }; 
         model.addRow(row); 
-    }); 
+        }); 
     }
     private void fillRevenueByUser(Date begin, Date end) { 
-    List<Revenue.ByUser> items = dao.getByUser(begin, end); 
- 
-    DefaultTableModel model = (DefaultTableModel) tblByUser.getModel(); 
-    model.setRowCount(0); 
-    items.forEach(item -> { 
-        Object[] row = { 
-            item.getUser(), 
-            String.format("$%.2f", item.getRevenue()), 
-            item.getQuantity(), 
-            XDate.format(item.getFirstTime(), "hh:mm:ss dd-MM-yyyy"), 
-            XDate.format(item.getLastTime(), "hh:mm:ss dd-MM-yyyy") 
-        }; 
-        model.addRow(row); 
-    }); 
-} 
+        List<Revenue.ByUser> items = dao.getByUser(begin, end); 
+
+        DefaultTableModel model = (DefaultTableModel) tblByUser.getModel(); 
+        model.setRowCount(0); 
+        items.forEach(item -> { 
+            Object[] row = { 
+                item.getUser(), 
+                String.format("$%.2f", item.getRevenue()), 
+                item.getQuantity(), 
+                XDate.format(item.getFirstTime(), "hh:mm:ss dd-MM-yyyy"), 
+                XDate.format(item.getLastTime(), "hh:mm:ss dd-MM-yyyy") 
+            }; 
+            model.addRow(row); 
+        }); 
+    } 
 }
