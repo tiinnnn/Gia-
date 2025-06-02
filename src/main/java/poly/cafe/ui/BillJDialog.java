@@ -4,14 +4,19 @@
  */
 package poly.cafe.ui;
 
+import lombok.Setter;
+import poly.cafe.entity.Bill;
+
 /**
  *
  * @author LENOVO
  */
 public class BillJDialog extends javax.swing.JDialog {
-
+    @Setter Bill bill;
     /**
      * Creates new form BillJDialog
+     * @param parent
+     * @param modal
      */
     public BillJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

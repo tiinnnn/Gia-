@@ -7,6 +7,7 @@ package poly.cafe.dao;
 import java.util.Date;
 import java.util.List;
 import poly.cafe.entity.Bill;
+import poly.cafe.util.XAuth;
 import poly.cafe.util.XJdbc;
 import poly.cafe.util.XQuery;
 
@@ -80,5 +81,20 @@ public class BillDAOImpl implements BillDAO{
     public Bill findById(Long id) {
         return XQuery.getSingleBean(Bill.class, findByIdSql, id);  
     }  
+
+    @Override
+    public Bill findServicingByCardId(Integer cardId) {
+        String sql = "SELECT * FROM Bills WHERE CardId=? AND Status=0";
+        Bill bill = XQuery.getSingleBean(Bill.class, sql, cardId);
+        if (bill == null) { // không tìm thấy -> tạo mới
+            Bill newBill = new Bill();
+            newBill.setCardId(cardId);
+            newBill.setCheckin(new Date());
+            newBill.setStatus(0); // đang phục vụ
+            newBill.setUsername(XAuth.user.getUsername());
+            bill = this.create(newBill); // insert
+        }
+        return bill;
+    }
 }
 
