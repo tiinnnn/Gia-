@@ -747,22 +747,36 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     }
     @Override
     public void fillToTable() {
-     DefaultTableModel model = (DefaultTableModel) tblBills.getModel();
-     model.setRowCount(0);
+    DefaultTableModel model = (DefaultTableModel) tblBills.getModel();
+    model.setRowCount(0);
     Date begin = XDate.parse(txtBegin.getText(), "MM/dd/yyyy");
     Date end = XDate.parse(txtEnd.getText(), "MM/dd/yyyy");
-
-     items = dao.findByTimeRange(begin, end);
-     items.forEach(item -> {   Object[]rowData={
-                item.getId(),
-                item.getCardId(),
-                XDate.format(item.getCheckin(), XDate.PATTERN_SHORT),
-                XDate.format(item.getCheckout(), XDate.PATTERN_SHORT), 
-                item.getStatus(), 
-                item.getUsername(),
-                false
-            };
-        model.addRow(rowData);});
+    items = dao.findByTimeRange(begin, end);
+    items.forEach(item -> {   
+        String statusText;
+        switch (item.getStatus()) {
+            case 0:
+                statusText = "Servicing";
+                break;
+            case 1:
+                statusText = "Completed";
+                break;
+            case 2:
+                statusText = "Canceled";
+                break;
+            default:
+                statusText = "Unknown";
+        }
+            Object[]rowData={
+            item.getId(),
+            item.getCardId(),
+            XDate.format(item.getCheckin(), XDate.PATTERN_SHORT),
+            XDate.format(item.getCheckout(), XDate.PATTERN_SHORT), 
+            statusText, 
+            item.getUsername(),
+            false
+        };
+    model.addRow(rowData);});
     }
 
     @Override
