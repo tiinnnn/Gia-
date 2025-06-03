@@ -96,5 +96,11 @@ public class BillDAOImpl implements BillDAO{
         }
         return bill;
     }
+
+    @Override
+    public List<Bill> findByUserAndTimeRange(String username, Date begin, Date end) {
+        String sql = "SELECT * FROM Bills " + " WHERE Username=? AND Checkin BETWEEN ? AND ?";
+        return XQuery.getBeanList(Bill.class, sql, username, begin, end);
+    }
 }
 

@@ -11,7 +11,7 @@ import poly.cafe.entity.Bill;
  *
  * @author LENOVO
  */
-public class BillJDialog extends javax.swing.JDialog {
+public class BillJDialog extends javax.swing.JDialog{
     @Setter Bill bill;
     /**
      * Creates new form BillJDialog
@@ -265,4 +265,5 @@ public class BillJDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTable tblBillDetails;
     // End of variables declaration//GEN-END:variables
+
 }

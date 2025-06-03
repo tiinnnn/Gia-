@@ -27,19 +27,14 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="393" max="-2" attributes="0"/>
-              <Component id="pnlCard" max="-2" attributes="0"/>
-              <EmptySpace pref="488" max="32767" attributes="0"/>
+              <Component id="pnlCard" min="-2" pref="610" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="383" max="-2" attributes="0"/>
-              <Component id="pnlCard" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
+          <Component id="pnlCard" alignment="0" pref="426" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>

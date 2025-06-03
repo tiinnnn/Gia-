@@ -7,6 +7,7 @@ package poly.cafe.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JButton;
@@ -58,16 +59,12 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(393, 393, 393)
-                .addComponent(pnlCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(488, Short.MAX_VALUE))
+                .addComponent(pnlCard, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(383, 383, 383)
-                .addComponent(pnlCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(pnlCard, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
         );
 
         pack();
@@ -139,17 +136,20 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
         dialog.setVisible(true);
     }
     private void loadCards() {// tải và hiển thị các thẻ lên cửa sổ bán hàng
-        CardDAO dao = new CardDAOImpl();
-        List<Card> cards = dao.findAll();
+        CardDAO dao1 = new CardDAOImpl();
+        List<Card> cards = dao1.findAll();
         pnlCard.removeAll();
-        cards.forEach(card -> pnlCard.add(this.createButton(card)));
+        int cols = 3; // Số cột bạn muốn hiển thị
+        int rows = Math.max(1, (int) Math.ceil((double) cards.size() / cols));
+        pnlCard.setLayout(new GridLayout(rows, cols, 10, 10));
+        cards.forEach(card -> pnlCard.add(createButton(card)));
         pnlCard.revalidate();
         pnlCard.repaint();
     }
     private JButton createButton(Card card) { // tạo Jbutton cho thẻ
         JButton btnCard = new JButton();
         btnCard.setText(String.format("Card #%d", card.getId()));
-        btnCard.setPreferredSize(new Dimension(0, 80));
+        btnCard.setPreferredSize(new Dimension(100, 80));
         btnCard.setEnabled(card.getStatus() == 0);
         btnCard.setBackground(btnCard.isEnabled() ? Color.GREEN : Color.GRAY);
         btnCard.setActionCommand(String.valueOf(card.getId()));
