@@ -16,7 +16,7 @@ import poly.cafe.util.XQuery;
  * @author LENOVO
  */
 public class BillDAOImpl implements BillDAO{
-    String createSql = "INSERT INTO Bills(Id, Username, CardId, Checkin, Checkout, Status) VALUES(?, ?, ?, ?, ?, ?)";
+    String createSql = "INSERT INTO Bills(Username, CardId, Checkin, Checkout, Status) VALUES(?, ?, ?, ?, ?);";
     String updateSql = "UPDATE Bills SET Username=?, CardId=?, Checkin=?, Checkout=?, Status=? WHERE Id=?";
     String deleteSql = "DELETE FROM Bills WHERE Id=?";
     String findAllSql = "SELECT * FROM Bills";
@@ -42,7 +42,6 @@ public class BillDAOImpl implements BillDAO{
     @Override
     public Bill create(Bill entity) {
         Object[] values = {
-        entity.getId(),
         entity.getUsername(),        
         entity.getCardId(),
         entity.getCheckin(),
