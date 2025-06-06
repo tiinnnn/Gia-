@@ -107,7 +107,7 @@ public class DrinkJDialog extends javax.swing.JDialog implements DrinkController
         });
         jScrollPane5.setViewportView(tblCategories);
 
-        jButton1.setText("Done");
+        jButton1.setText("Hoàn thành");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
