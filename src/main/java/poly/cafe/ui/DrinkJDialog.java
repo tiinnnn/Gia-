@@ -23,7 +23,6 @@ import poly.cafe.util.XDialog;
  * @author LENOVO
  */
 public class DrinkJDialog extends javax.swing.JDialog implements DrinkController{
-    @Setter Bill bill;
     /**
      * Creates new form DrinkJDialog
      */
@@ -48,6 +47,7 @@ public class DrinkJDialog extends javax.swing.JDialog implements DrinkController
         jTable1 = new javax.swing.JTable();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblCategories = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -107,6 +107,13 @@ public class DrinkJDialog extends javax.swing.JDialog implements DrinkController
         });
         jScrollPane5.setViewportView(tblCategories);
 
+        jButton1.setText("Done");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,22 +124,28 @@ public class DrinkJDialog extends javax.swing.JDialog implements DrinkController
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblDrinksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDrinksMouseClicked
-        if(evt.getClickCount() == 2){
+        if(evt.getClickCount() == 1){
             this.addDrinkToBill();
         }
     }//GEN-LAST:event_tblDrinksMouseClicked
@@ -144,6 +157,10 @@ public class DrinkJDialog extends javax.swing.JDialog implements DrinkController
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.open();
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,6 +205,7 @@ public class DrinkJDialog extends javax.swing.JDialog implements DrinkController
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -196,6 +214,7 @@ public class DrinkJDialog extends javax.swing.JDialog implements DrinkController
     private javax.swing.JTable tblCategories;
     private javax.swing.JTable tblDrinks;
     // End of variables declaration//GEN-END:variables
+    @Setter Bill bill;
     CategoryDAO categoryDao = new CategoryDAOImpl();
     List<Category> categories = List.of();
     DrinkDAO drinkDao = new DrinkDAOImpl();
@@ -240,10 +259,10 @@ public class DrinkJDialog extends javax.swing.JDialog implements DrinkController
             Drink drink = drinks.get(tblDrinks.getSelectedRow());
             BillDetail detail = new BillDetail();
             detail.setBillId(bill.getId());
-            detail.setDiscount(drink.getDiscount());
             detail.setDrinkId(drink.getId());
-            detail.setQuantity(Integer.parseInt(quantity));
             detail.setUnitPrice(drink.getUnitPrice());
+            detail.setDiscount(drink.getDiscount());
+            detail.setQuantity(Integer.parseInt(quantity));
             new BillDetailDAOImpl().create(detail);
         }
     }

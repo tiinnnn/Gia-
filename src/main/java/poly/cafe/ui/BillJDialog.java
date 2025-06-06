@@ -23,7 +23,7 @@ import poly.cafe.util.XDialog;
  * @author LENOVO
  */
 public class BillJDialog extends javax.swing.JDialog implements BillController{
-    @Setter Bill bill;
+
     /**
      * Creates new form BillJDialog
      * @param parent
@@ -324,13 +324,15 @@ public class BillJDialog extends javax.swing.JDialog implements BillController{
     private javax.swing.JTextField txtStatus;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+    @Setter Bill bill;
     BillDetailDAO billDetailDao = new BillDetailDAOImpl();
     BillDAO billDao= new BillDAOImpl();
     List<BillDetail> billDetails = List.of();
     @Override
     public void open() {
         this.setLocationRelativeTo(null);
-        this.fillBillDetails();
+        this.setForm(bill);
+        this.fillBillDetails();    
     }
 
     @Override
@@ -417,22 +419,24 @@ public class BillJDialog extends javax.swing.JDialog implements BillController{
     @Override
     public void fillBillDetails() {
         DefaultTableModel model = (DefaultTableModel) tblBillDetails.getModel();
-     model.setRowCount(0);
-     billDetails = List.of();
-     if (!txtId.getText().isBlank()) {
-     Long billId = Long.valueOf(txtId.getText());
-     billDetails = billDetailDao.findByBillId(billId);
-     } 
-     billDetails.forEach(d -> {
-     var amount = d.getUnitPrice() * d.getQuantity() * (1 - d.getDiscount());
-     Object[] rowData = {
-     d.getDrinkName(),
-     String.format("%.1f VNĐ", d.getUnitPrice()),
-     String.format("%.0f%%", d.getDiscount() * 100),
-     d.getQuantity(), String.format("%.1f VNĐ", amount)
-     };
+        model.setRowCount(0);
+        billDetails = List.of();
+        if (!txtId.getText().isBlank()) {
+        Long billId = Long.valueOf(txtId.getText());
+        billDetails = billDetailDao.findByBillId(billId);
+        } 
+        billDetails.forEach(d -> {
+        var amount = d.getUnitPrice() * d.getQuantity() * (1 - d.getDiscount());
+        Object[] rowData = {
+            false,
+            d.getBillId(),
+            d.getDrinkName(),
+            String.format("%.1f VNĐ", d.getUnitPrice()),
+            String.format("%.0f%%", d.getDiscount() * 100),
+            d.getQuantity(), String.format("%.1f VNĐ", amount),
+        };
 
-     model.addRow(rowData);
-     });
+        model.addRow(rowData);
+        });
     }
 }
