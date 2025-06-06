@@ -4,12 +4,26 @@
  */
 package poly.cafe.ui;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import lombok.Setter;
+import poly.cafe.dao.BillDetailDAOImpl;
+import poly.cafe.dao.CategoryDAO;
+import poly.cafe.dao.CategoryDAOImpl;
+import poly.cafe.dao.DrinkDAO;
+import poly.cafe.dao.DrinkDAOImpl;
+import poly.cafe.entity.Bill;
+import poly.cafe.entity.BillDetail;
+import poly.cafe.entity.Category;
+import poly.cafe.entity.Drink;
+import poly.cafe.util.XDialog;
+
 /**
  *
  * @author LENOVO
  */
-public class DrinkJDialog extends javax.swing.JDialog {
-
+public class DrinkJDialog extends javax.swing.JDialog implements DrinkController{
+    @Setter Bill bill;
     /**
      * Creates new form DrinkJDialog
      */
@@ -36,6 +50,11 @@ public class DrinkJDialog extends javax.swing.JDialog {
         tblCategories = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         tblDrinks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -47,13 +66,10 @@ public class DrinkJDialog extends javax.swing.JDialog {
             new String [] {
                 "Mã", "Tên đồ uống", "Đơn giá", "Giảm giá"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        ));
+        tblDrinks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDrinksMouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(tblDrinks);
@@ -83,13 +99,10 @@ public class DrinkJDialog extends javax.swing.JDialog {
             new String [] {
                 "Loại đồ uống"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        ));
+        tblCategories.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCategoriesMouseClicked(evt);
             }
         });
         jScrollPane5.setViewportView(tblCategories);
@@ -117,6 +130,20 @@ public class DrinkJDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblDrinksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDrinksMouseClicked
+        if(evt.getClickCount() == 2){
+            this.addDrinkToBill();
+        }
+    }//GEN-LAST:event_tblDrinksMouseClicked
+
+    private void tblCategoriesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoriesMouseClicked
+        this.fillDrinks();
+    }//GEN-LAST:event_tblCategoriesMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.open();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -169,4 +196,55 @@ public class DrinkJDialog extends javax.swing.JDialog {
     private javax.swing.JTable tblCategories;
     private javax.swing.JTable tblDrinks;
     // End of variables declaration//GEN-END:variables
+    CategoryDAO categoryDao = new CategoryDAOImpl();
+    List<Category> categories = List.of();
+    DrinkDAO drinkDao = new DrinkDAOImpl();
+    List<Drink> drinks = List.of();
+    @Override
+    public void open() {
+        this.setLocationRelativeTo(null);
+        this.fillCategories();
+        this.fillDrinks();
+    }
+
+    @Override
+    public void fillCategories() {
+        categories = categoryDao.findAll();
+        DefaultTableModel model = (DefaultTableModel) tblCategories.getModel();
+        model.setRowCount(0);
+        categories.forEach(d -> model.addRow(new Object[] {d.getName()}));
+        tblCategories.setRowSelectionInterval(0, 0);
+    }
+
+    @Override
+    public void fillDrinks() {
+        Category category = categories.get(tblCategories.getSelectedRow());
+        drinks = drinkDao.findByCategoryId(category.getId());
+        DefaultTableModel model = (DefaultTableModel) tblDrinks.getModel();
+        model.setRowCount(0);
+        drinks.forEach(d -> {
+        Object[] row = {
+        d.getId(), 
+        d.getName(), 
+        String.format("$%.1f", d.getUnitPrice()), 
+        String.format("%.0f%%", d.getDiscount()*100)
+        };
+        model.addRow(row);
+        });
+    }
+
+    @Override
+    public void addDrinkToBill() {
+        String quantity = XDialog.prompt("Số lượng?");
+        if(quantity != null && quantity.length() > 0){
+            Drink drink = drinks.get(tblDrinks.getSelectedRow());
+            BillDetail detail = new BillDetail();
+            detail.setBillId(bill.getId());
+            detail.setDiscount(drink.getDiscount());
+            detail.setDrinkId(drink.getId());
+            detail.setQuantity(Integer.parseInt(quantity));
+            detail.setUnitPrice(drink.getUnitPrice());
+            new BillDetailDAOImpl().create(detail);
+        }
+    }
 }

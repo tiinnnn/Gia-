@@ -26,4 +26,7 @@ public class Bill {
     private Date checkin = new Date();
     private Date checkout;
     private int status;
+    public enum Status {
+    Pending, Processing, Completed, Canceled;
+    }
 }

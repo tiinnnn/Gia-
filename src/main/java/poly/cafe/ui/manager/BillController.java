@@ -13,5 +13,5 @@ import poly.cafe.ui.CrudController;
  */
 public interface BillController extends CrudController<Bill>{
     void fillBillDetails(); // tải và hiển thị chi tiết phiếu
- void selectTimeRange(); // xử lý chọn khoảng thời gian trong cboTimeRanges
+    void selectTimeRange(); // xử lý chọn khoảng thời gian trong cboTimeRanges
 }
