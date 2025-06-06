@@ -276,7 +276,7 @@ PolyCafeController {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnDrinkManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDrinkManagerActionPerformed
-        this.showHistoryJDialog(this);
+        this.showDrinkManagerJDialog(this);
     }//GEN-LAST:event_btnDrinkManagerActionPerformed
 
     private void btnBillManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillManagerActionPerformed
