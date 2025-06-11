@@ -627,14 +627,14 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserManag
     
     private void setCheckedAll(boolean checked) {
         for (int i = 0; i < tblUser.getRowCount(); i++) {
-        tblUser.setValueAt(checked, i, 2);
+        tblUser.setValueAt(checked, i, 6);
         }
     }
     @Override
     public void deleteCheckedItems() {
          if (XDialog.confirm("Bạn thực sự muốn xóa các mục chọn?")) {
             for (int i = 0; i < tblUser.getRowCount(); i++) {
-                if ((Boolean) tblUser.getValueAt(i, 2)) {
+                if ((Boolean) tblUser.getValueAt(i, 6)) {
                     dao.deleteById(items.get(i).getUsername());
                 }
             }
